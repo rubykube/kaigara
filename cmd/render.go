@@ -26,12 +26,15 @@ import (
 	"text/template"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 type Inventory struct {
 	Material string
 	Count    uint
 }
+
+var metaFile string
 
 // renderCmd represents the render command
 var renderCmd = &cobra.Command{
@@ -41,15 +44,16 @@ var renderCmd = &cobra.Command{
 
   In local development it's recommended to setup
   default variables into metadata file
-  using yaml, toml, json, xml format.
-  define variable for each runtime environment`,
+  using yaml, toml, json, xml format.`,
 
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("render called with %s", args[0])
+  Run: func(cmd *cobra.Command, args []string) {
+    if len(args) > 0 {
+      fmt.Println("render called with %s", args[0])
 
-		data := Inventory{"wool", 17}
-		renderTemplate(args[0], &data)
-	},
+      data := Inventory{"wool", 17}
+      renderTemplate(args[0], &data)
+    }
+  },
 }
 
 func renderTemplate(tmpl string, data *Inventory) {
@@ -65,5 +69,21 @@ func renderTemplate(tmpl string, data *Inventory) {
 
 func init() {
 	RootCmd.AddCommand(renderCmd)
-	// renderCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+  cobra.OnInitialize(setMetadata)
+  renderCmd.Flags().StringVar(&metaFile, "metafile", "", "Change the metafile path")
+}
+
+func setMetadata() {
+  if metaFile != "" {
+    viper.SetConfigFile(metaFile)
+    fmt.Println("setMetafile")
+  }
+
+  viper.SetConfigName("metadata")
+  viper.AddConfigPath(".")
+  viper.AutomaticEnv()
+
+  if err := viper.ReadInConfig(); err == nil {
+    fmt.Println("Using metafile:", viper.ConfigFileUsed())
+  }
 }
