@@ -6,11 +6,12 @@ ADD operations /opt/kaigara/operations
 ADD resources /opt/kaigara/resources
 ADD scripts/kaigara /usr/local/bin/
 ADD uhttpd /usr/local/bin/
+ADD scripts/entrypoint.sh /usr/local/bin/
 
 EXPOSE 9090
 
 VOLUME ["/var/lib/uhttpd", "/etc/uhttpd"]
 
-ENTRYPOINT ["kaigara"]
+ENTRYPOINT ["entrypoint.sh"]
 
-CMD ["execute", "uhttpd"] 
+CMD ["kaigara", "execute", "uhttpd"]
