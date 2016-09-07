@@ -12,28 +12,43 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package cmd
+package app
 
 import (
-	"github.com/mod/kaigara/pkg/app"
-	"github.com/spf13/cobra"
+	"fmt"
+
+	"os"
+	"os/exec"
+	"os/signal"
+	"syscall"
 )
 
-// execCmd represents the exec command
-var execCmd = &cobra.Command{
-	Use:   "exec",
-	Short: "Execute a command or a binary",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+func Execute(cmd string, args []string) {
+	process := exec.Command(cmd, args...)
+	process.Stdin = os.Stdin
+	process.Stdout = os.Stdout
+	process.Stderr = os.Stderr
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		app.Execute(args[0], args[1:])
-	},
-}
+	err := process.Start()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
-func init() {
-	RootCmd.AddCommand(execCmd)
+	sigs := make(chan os.Signal, 1)
+	signal.Notify(sigs, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT, syscall.SIGKILL)
+
+	go func() {
+		select {
+		case <-sigs:
+			process.Process.Kill()
+		}
+	}()
+
+	err = process.Wait()
+
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 }
