@@ -17,6 +17,8 @@ package cmd
 import (
   "fmt"
   "os"
+  "strings"
+  "github.com/mod/kaigara/pkg/app"
 
   "github.com/spf13/cobra"
   "github.com/spf13/viper"
@@ -32,16 +34,24 @@ var RootCmd = &cobra.Command{
 
   By embeding operations and resources into your application containers
   kaigara will run all your provisioning scripts before starting the app.`,
-
-  // Run: func(cmd *cobra.Command, args []string) { },
 }
 
 // Execute adds all child commands to the root command sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
   if err := RootCmd.Execute(); err != nil {
-    fmt.Println(err)
-    os.Exit(-1)
+    e := err.Error()
+
+    if strings.Contains(err.Error(), "unknown command") {
+      e = strings.Replace(e, "unknown command \"", "", 1)
+      e = strings.Replace(e, "\" for \"kaigara\"", "", 1)
+
+      var args []string
+      app.Execute(e, args)
+    } else {
+      fmt.Println(err)
+      os.Exit(-1)
+    }
   }
 }
 
