@@ -25,6 +25,8 @@ type Inventory struct {
 
 var metaFile string
 
+var Path []string = []string{".", "/opt/kaigara"}
+
 // renderCmd represents the render command
 var renderCmd = &cobra.Command{
 	Use:   "render",
@@ -45,7 +47,16 @@ var renderCmd = &cobra.Command{
 }
 
 func renderTemplate(tmpl string, data map[string]interface{}) {
-	t, err := template.ParseFiles("resources/" + tmpl + ".tmpl")
+	var resourcesPath string
+
+	for _, dir := range Path {
+		if _, err := os.Stat(dir + "/resources"); err == nil {
+			resourcesPath = dir
+			break
+		}
+	}
+
+	t, err := template.ParseFiles(resourcesPath + "/resources/" + tmpl + ".tmpl")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -63,18 +74,25 @@ func init() {
 }
 
 // TODO: implement KAIGARA_PATH for templates
-// TODO: implement metadata and templates directory priority
 func setMetadata() {
 	if metaFile != "" {
 		viper.SetConfigFile(metaFile)
-		fmt.Println("setMetafile")
 	}
 
 	viper.SetConfigName("metadata")
-	viper.AddConfigPath(".")
+
+	for _, dir := range Path {
+		if _, err := os.Stat(dir + "/metadata.yml"); err == nil {
+			viper.AddConfigPath(dir)
+			break
+		}
+	}
+
 	viper.AutomaticEnv()
 
 	if err := viper.ReadInConfig(); err == nil {
 		fmt.Println("Using metafile:", viper.ConfigFileUsed())
+	} else {
+		log.Fatal(err)
 	}
 }
