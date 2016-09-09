@@ -1,4 +1,13 @@
+test
+----------
+./metadata.yml:
+app -> cache1 -> maxItems: {{.app.cache1.maxItems}}
+app -> cache2 -> itemSize: {{.app.cache2.itemSize}}
+/opt/kaigara/metadata.yml:
+fruits -> apple: {{.fruits.apple}}
+fruits -> orange: {{.fruits.orange}}
 
-hello
-
-{{.Count}} items are made of {{.Material}}
+# /opt/kaigara/metadata.yml example here:
+# fruits:
+#   apple: 'apple'
+#   orange: 'orange'

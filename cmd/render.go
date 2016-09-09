@@ -10,6 +10,7 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"text/template"
 
@@ -24,6 +25,8 @@ type Inventory struct {
 
 var metaFile string
 
+var Path []string = []string{".", "/opt/kaigara"}
+
 // renderCmd represents the render command
 var renderCmd = &cobra.Command{
 	Use:   "render",
@@ -36,22 +39,31 @@ var renderCmd = &cobra.Command{
 
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) > 0 {
-			fmt.Println("render called with %s", args[0])
-
-			data := Inventory{"wool", 17}
-			renderTemplate(args[0], &data)
+			renderTemplate(args[0], viper.AllSettings())
+		} else {
+			log.Fatal("Error: no template given")
 		}
 	},
 }
 
-func renderTemplate(tmpl string, data *Inventory) {
-	t, err := template.ParseFiles("resources/" + tmpl + ".tmpl")
-	if err != nil {
-		panic(err)
+func renderTemplate(tmpl string, data map[string]interface{}) {
+	var resourcesPath string
+
+	for _, dir := range Path {
+		if _, err := os.Stat(dir + "/resources"); err == nil {
+			resourcesPath = dir
+			break
+		}
 	}
+
+	t, err := template.ParseFiles(resourcesPath + "/resources/" + tmpl + ".tmpl")
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	err = t.Execute(os.Stdout, data)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 }
 
@@ -61,17 +73,26 @@ func init() {
 	renderCmd.Flags().StringVar(&metaFile, "metafile", "", "Change the metafile path")
 }
 
+// TODO: implement KAIGARA_PATH for templates
 func setMetadata() {
 	if metaFile != "" {
 		viper.SetConfigFile(metaFile)
-		fmt.Println("setMetafile")
 	}
 
 	viper.SetConfigName("metadata")
-	viper.AddConfigPath(".")
+
+	for _, dir := range Path {
+		if _, err := os.Stat(dir + "/metadata.yml"); err == nil {
+			viper.AddConfigPath(dir)
+			break
+		}
+	}
+
 	viper.AutomaticEnv()
 
 	if err := viper.ReadInConfig(); err == nil {
 		fmt.Println("Using metafile:", viper.ConfigFileUsed())
+	} else {
+		log.Fatal(err)
 	}
 }

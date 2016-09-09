@@ -7,7 +7,7 @@ VOLDIR=$(mktemp -d)
 mkdir $VOLDIR/var
 mkdir $VOLDIR/etc
 
-docker run -p '9090:9090' -d --rm \
+docker run -p '9090:9090' -d \
   -v $VOLDIR/var:/var/lib/uhttpd \
   -v $VOLDIR/etc:/etc/uhttpd \
   uhttpd:0.0.1
