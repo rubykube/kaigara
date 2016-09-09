@@ -10,6 +10,7 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"text/template"
 
@@ -36,22 +37,22 @@ var renderCmd = &cobra.Command{
 
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) > 0 {
-			fmt.Println("render called with %s", args[0])
-
-			data := Inventory{"wool", 17}
-			renderTemplate(args[0], &data)
+			renderTemplate(args[0], viper.AllSettings())
+		} else {
+			log.Fatal("Error: no template given")
 		}
 	},
 }
 
-func renderTemplate(tmpl string, data *Inventory) {
+func renderTemplate(tmpl string, data map[string]interface{}) {
 	t, err := template.ParseFiles("resources/" + tmpl + ".tmpl")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
+
 	err = t.Execute(os.Stdout, data)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 }
 
@@ -61,6 +62,8 @@ func init() {
 	renderCmd.Flags().StringVar(&metaFile, "metafile", "", "Change the metafile path")
 }
 
+// TODO: implement KAIGARA_PATH for templates
+// TODO: implement metadata and templates directory priority
 func setMetadata() {
 	if metaFile != "" {
 		viper.SetConfigFile(metaFile)
