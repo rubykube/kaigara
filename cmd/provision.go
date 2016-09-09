@@ -15,6 +15,8 @@ import (
 	"path/filepath"
 
 	"github.com/mod/kaigara/pkg/app"
+	"github.com/mod/kaigara/pkg/file"
+	"github.com/mod/kaigara/pkg/term"
 	"github.com/spf13/cobra"
 )
 
@@ -29,27 +31,32 @@ var provisionCmd = &cobra.Command{
   Step 3: Update the index to reflect last operations`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("provision called")
-		runOperations()
+		operationDir := filepath.Join("opt", "kaigara", "operations")
+		if file.Exists("./operations") {
+			runOperations("./operations")
+		} else if file.Exists(operationDir) {
+			runOperations(operationDir)
+		} else {
+			log.Fatal("Missing operation folder")
+		}
 	},
 }
 
-func runOperations() {
-	path_ops := filepath.Join("opt", "kaigara", "operations")
-	files, err := ioutil.ReadDir(path_ops)
+func runOperations(operationPath string) {
+	files, err := ioutil.ReadDir(operationPath)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	for _, file := range files {
-		fmt.Println("Found operation: " + file.Name())
-		app.Execute(filepath.Join(path_ops, file.Name()), nil)
+		term.Say("Found operation: " + file.Name())
+		app.Execute(filepath.Join(operationPath, file.Name()), nil)
 	}
 }
 
 func init() {
 	RootCmd.AddCommand(provisionCmd)
-
 	provisionCmd.Flags().BoolP("dry", "y", false, "Dry run operations")
 	provisionCmd.Flags().BoolP("verbose", "v", false, "Activate verbose")
 }
