@@ -33,5 +33,5 @@ var createCmd = &cobra.Command{
 func init() {
 	RootCmd.AddCommand(createCmd)
 
-  createCmd.Flags().String("image", "debian:latest", "Dockerfile base image")
+	createCmd.Flags().String("image", "debian:latest", "Dockerfile base image")
 }

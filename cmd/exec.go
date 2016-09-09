@@ -9,8 +9,8 @@
 package cmd
 
 import (
-	"github.com/spf13/cobra"
 	"github.com/mod/kaigara/pkg/app"
+	"github.com/spf13/cobra"
 )
 
 // execCmd represents the exec command

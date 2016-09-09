@@ -34,14 +34,14 @@ var renderCmd = &cobra.Command{
   default variables into metadata file
   using yaml, toml, json, xml format.`,
 
-  Run: func(cmd *cobra.Command, args []string) {
-    if len(args) > 0 {
-      fmt.Println("render called with %s", args[0])
+	Run: func(cmd *cobra.Command, args []string) {
+		if len(args) > 0 {
+			fmt.Println("render called with %s", args[0])
 
-      data := Inventory{"wool", 17}
-      renderTemplate(args[0], &data)
-    }
-  },
+			data := Inventory{"wool", 17}
+			renderTemplate(args[0], &data)
+		}
+	},
 }
 
 func renderTemplate(tmpl string, data *Inventory) {
@@ -57,21 +57,21 @@ func renderTemplate(tmpl string, data *Inventory) {
 
 func init() {
 	RootCmd.AddCommand(renderCmd)
-  cobra.OnInitialize(setMetadata)
-  renderCmd.Flags().StringVar(&metaFile, "metafile", "", "Change the metafile path")
+	cobra.OnInitialize(setMetadata)
+	renderCmd.Flags().StringVar(&metaFile, "metafile", "", "Change the metafile path")
 }
 
 func setMetadata() {
-  if metaFile != "" {
-    viper.SetConfigFile(metaFile)
-    fmt.Println("setMetafile")
-  }
+	if metaFile != "" {
+		viper.SetConfigFile(metaFile)
+		fmt.Println("setMetafile")
+	}
 
-  viper.SetConfigName("metadata")
-  viper.AddConfigPath(".")
-  viper.AutomaticEnv()
+	viper.SetConfigName("metadata")
+	viper.AddConfigPath(".")
+	viper.AutomaticEnv()
 
-  if err := viper.ReadInConfig(); err == nil {
-    fmt.Println("Using metafile:", viper.ConfigFileUsed())
-  }
+	if err := viper.ReadInConfig(); err == nil {
+		fmt.Println("Using metafile:", viper.ConfigFileUsed())
+	}
 }

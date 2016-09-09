@@ -10,12 +10,12 @@ package cmd
 
 import (
 	"fmt"
-  "log"
-  "io/ioutil"
-  "path/filepath"
+	"io/ioutil"
+	"log"
+	"path/filepath"
 
-	"github.com/spf13/cobra"
 	"github.com/mod/kaigara/pkg/app"
+	"github.com/spf13/cobra"
 )
 
 // provisionCmd represents the provision command
@@ -29,27 +29,27 @@ var provisionCmd = &cobra.Command{
   Step 3: Update the index to reflect last operations`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("provision called")
-    runOperations()
+		runOperations()
 	},
 }
 
 func runOperations() {
-  path_ops := filepath.Join("opt","kaigara","operations")
-  files, err := ioutil.ReadDir(path_ops)
+	path_ops := filepath.Join("opt", "kaigara", "operations")
+	files, err := ioutil.ReadDir(path_ops)
 
-  if err != nil {
-    log.Fatal(err)
-  }
+	if err != nil {
+		log.Fatal(err)
+	}
 
-  for _, file := range files {
-    fmt.Println("Found operation: " + file.Name())
-    app.Execute(filepath.Join(path_ops, file.Name()), nil)
-  }
+	for _, file := range files {
+		fmt.Println("Found operation: " + file.Name())
+		app.Execute(filepath.Join(path_ops, file.Name()), nil)
+	}
 }
 
 func init() {
 	RootCmd.AddCommand(provisionCmd)
 
-  provisionCmd.Flags().BoolP("dry", "y", false, "Dry run operations")
-  provisionCmd.Flags().BoolP("verbose", "v", false, "Activate verbose")
+	provisionCmd.Flags().BoolP("dry", "y", false, "Dry run operations")
+	provisionCmd.Flags().BoolP("verbose", "v", false, "Activate verbose")
 }
