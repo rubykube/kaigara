@@ -4,6 +4,8 @@ MAINTAINER Louis Bellet
 # Kaigara setup
 ADD operations /opt/kaigara/operations
 ADD resources /opt/kaigara/resources
+ADD metadata.yml /opt/kaigara
+
 ADD kaigara /usr/local/bin/
 ADD uhttpd /usr/local/bin/
 
