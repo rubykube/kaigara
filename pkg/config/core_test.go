@@ -2,7 +2,7 @@ package config
 
 import "testing"
 
-func TestSetAndGet(t *testing.T) {
+func TestSetDefaults(t *testing.T) {
 	setDefaults()
 
 	def := true
