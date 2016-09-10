@@ -23,7 +23,7 @@ import (
 	"syscall"
 )
 
-func Execute(cmd string, args []string) {
+func Execute(cmd string, args []string) (pid int) {
 	process := exec.Command(cmd, args...)
 	process.Stdin = os.Stdin
 	process.Stdout = os.Stdout
@@ -51,4 +51,7 @@ func Execute(cmd string, args []string) {
 		fmt.Println(err)
 		return
 	}
+
+	pid = process.Process.Pid
+	return
 }
