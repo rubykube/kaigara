@@ -1,3 +1,7 @@
 language: go
 
+install:
+  - go get github.com/spf13/cobra
+  - go get github.com/spf13/viper
+
 script: go test -v ./...
