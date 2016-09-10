@@ -1,19 +1,17 @@
 package config
 
-import (
-	"os"
-	"testing"
-)
+import "testing"
 
-func TestSetDefaults(t *testing.T) {
-	// test each default
-}
+func TestSetAndGet(t *testing.T) {
+	setDefaults()
 
-func TestGet(t *testing.T) {
-	// test some default variables
-}
+	def := true
+	def = Get("home") == "/opt/provision"
+	def = Get("path") == "/opt/provision/operations"
+	def = Get("tmpl") == "/opt/provision/resources"
+	def = Get("env") == "development"
 
-func TestGetPath(t *testing.T) {
-	// add some values to path
-	// test path
+	if !def {
+		t.Fail()
+	}
 }
