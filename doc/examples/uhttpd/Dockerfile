@@ -2,9 +2,9 @@ FROM alpine
 MAINTAINER Louis Bellet
 
 # Kaigara setup
-ADD operations /opt/kaigara/operations
-ADD resources /opt/kaigara/resources
-ADD metadata.yml /opt/kaigara
+ADD operations /opt/provision/operations
+ADD resources /opt/provision/resources
+ADD metadata.yml /opt/provision
 
 ADD kaigara /usr/local/bin/
 ADD uhttpd /usr/local/bin/

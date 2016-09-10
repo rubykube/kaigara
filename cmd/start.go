@@ -9,8 +9,10 @@
 package cmd
 
 import (
-	"github.com/mod/kaigara/pkg/app"
+	"github.com/mod/kaigara/pkg/operation"
+	"github.com/mod/kaigara/pkg/term"
 	"github.com/spf13/cobra"
+	"log"
 )
 
 // startCmd represents the start command
@@ -24,7 +26,13 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		app.Execute(args[0], args[1:])
+		term.Say("start called")
+		operation.RollUp()
+		if len(args) > 0 {
+			operation.Execute(args[0], args[1:])
+		} else {
+			log.Fatal("Missing application to start")
+		}
 	},
 }
 

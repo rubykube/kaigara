@@ -9,23 +9,12 @@
 package cmd
 
 import (
-	"fmt"
-	"log"
-	"os"
-	"text/template"
-
+	"github.com/mod/kaigara/pkg/metadata"
+	"github.com/mod/kaigara/pkg/resource"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"log"
 )
-
-type Inventory struct {
-	Material string
-	Count    uint
-}
-
-var metaFile string
-
-var Path []string = []string{".", "/opt/kaigara"}
 
 // renderCmd represents the render command
 var renderCmd = &cobra.Command{
@@ -38,61 +27,19 @@ var renderCmd = &cobra.Command{
   using yaml, toml, json, xml format.`,
 
 	Run: func(cmd *cobra.Command, args []string) {
+
+		metadata.Parse()
 		if len(args) > 0 {
-			renderTemplate(args[0], viper.AllSettings())
+			resource.Render(args[0], viper.AllSettings())
 		} else {
 			log.Fatal("Error: no template given")
 		}
 	},
 }
 
-func renderTemplate(tmpl string, data map[string]interface{}) {
-	var resourcesPath string
-
-	for _, dir := range Path {
-		if _, err := os.Stat(dir + "/resources"); err == nil {
-			resourcesPath = dir
-			break
-		}
-	}
-
-	t, err := template.ParseFiles(resourcesPath + "/resources/" + tmpl + ".tmpl")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = t.Execute(os.Stdout, data)
-	if err != nil {
-		log.Fatal(err)
-	}
-}
-
 func init() {
 	RootCmd.AddCommand(renderCmd)
-	cobra.OnInitialize(setMetadata)
-	renderCmd.Flags().StringVar(&metaFile, "metafile", "", "Change the metafile path")
-}
-
-// TODO: implement KAIGARA_PATH for templates
-func setMetadata() {
-	if metaFile != "" {
-		viper.SetConfigFile(metaFile)
-	}
-
-	viper.SetConfigName("metadata")
-
-	for _, dir := range Path {
-		if _, err := os.Stat(dir + "/metadata.yml"); err == nil {
-			viper.AddConfigPath(dir)
-			break
-		}
-	}
-
-	viper.AutomaticEnv()
-
-	if err := viper.ReadInConfig(); err == nil {
-		fmt.Println("Using metafile:", viper.ConfigFileUsed())
-	} else {
-		log.Fatal(err)
-	}
+	cobra.OnInitialize(metadata.SetFile)
+	// renderCmd.Flags().StringVar(&metaFile,
+	// "metafile", "", "Change the metafile path")
 }

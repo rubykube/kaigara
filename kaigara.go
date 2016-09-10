@@ -10,33 +10,10 @@ package main
 
 import (
 	"github.com/mod/kaigara/cmd"
-	"github.com/mod/kaigara/pkg/term"
-	"github.com/spf13/viper"
+	"github.com/mod/kaigara/pkg/config"
 )
 
-func setDefaults() {
-	viper.SetDefault("home", "/opt/kaigara")
-	viper.SetDefault("path", "/opt/operations")
-	viper.SetDefault("tmpl", "/opt/resources")
-	viper.SetDefault("env", "development")
-}
-
-func initConfig() {
-	viper.SetConfigName("config")
-	viper.AddConfigPath("/etc/kaigara")
-	viper.AddConfigPath("$HOME/.kaigara")
-
-	viper.SetEnvPrefix("kaigara")
-	viper.AutomaticEnv()
-
-	err := viper.ReadInConfig()
-	if err != nil {
-		term.Say("No configuration found")
-	}
-}
-
 func main() {
-	setDefaults()
-	initConfig()
+	config.Init()
 	cmd.Execute()
 }
