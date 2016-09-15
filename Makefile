@@ -2,6 +2,7 @@
 
 NAME=kaigara
 VERSION=0.0.1
+TAG=v$(VERSION)
 
 all: $(NAME)
 
@@ -21,10 +22,10 @@ default:
 
 release: dist
 	mkdir releases
-	tar -cvzf releases/$(NAME)-linux-amd64-$(VERSION).tar.gz -C dist/linux/amd64 $(NAME)
-	tar -cvzf releases/$(NAME)-linux-i386-$(VERSION).tar.gz -C dist/linux/i386 $(NAME)
-	tar -cvzf releases/$(NAME)-darwin-amd64-$(VERSION).tar.gz -C dist/darwin/amd64 $(NAME)
-	tar -cvzf releases/$(NAME)-darwin-i386-$(VERSION).tar.gz -C dist/darwin/i386 $(NAME)
+	tar -cvzf releases/$(NAME)-linux-amd64-$(TAG).tar.gz -C dist/linux/amd64 $(NAME)
+	tar -cvzf releases/$(NAME)-linux-i386-$(TAG).tar.gz -C dist/linux/i386 $(NAME)
+	tar -cvzf releases/$(NAME)-darwin-amd64-$(TAG).tar.gz -C dist/darwin/amd64 $(NAME)
+	tar -cvzf releases/$(NAME)-darwin-i386-$(TAG).tar.gz -C dist/darwin/i386 $(NAME)
 
 dist-clean:
 	rm -rf dist

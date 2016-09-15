@@ -24,11 +24,10 @@ var execCmd = &cobra.Command{
   process`,
 	Run: func(cmd *cobra.Command, args []string) {
 		term.Say("exec called")
-		operation.RollUp()
 		if len(args) > 0 {
 			operation.Execute(args[0], args[1:])
 		} else {
-			log.Fatal("Missing application to start")
+			log.Fatal("Missing application to exec")
 		}
 	},
 }
