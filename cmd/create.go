@@ -9,8 +9,7 @@
 package cmd
 
 import (
-	"fmt"
-
+	"github.com/mod/kaigara/pkg/term"
 	"github.com/spf13/cobra"
 )
 
@@ -22,11 +21,10 @@ var createCmd = &cobra.Command{
   this command will create a basic skeleton with kaigara
   Dockerfile.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("create called")
-		fmt.Println("Dockerfile")
-		fmt.Println("metadata.yml")
-		fmt.Println("operations/")
-		fmt.Println("resources/")
+		term.Create("Dockerfile")
+		term.Create("metadata.yml")
+		term.Create("operations/")
+		term.Create("resources/")
 	},
 }
 

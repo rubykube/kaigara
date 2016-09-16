@@ -1,7 +1,6 @@
 package config
 
 import (
-	"github.com/mod/kaigara/pkg/term"
 	"github.com/spf13/viper"
 	"strings"
 )
@@ -17,6 +16,7 @@ func setDefaults() {
 	viper.SetDefault("path", "/opt/provision/operations")
 	viper.SetDefault("tmpl", "/opt/provision/resources")
 	viper.SetDefault("env", "development")
+	viper.SetDefault("core.color", "false")
 }
 
 func parseConfig() {
@@ -24,10 +24,7 @@ func parseConfig() {
 	viper.AddConfigPath("/etc/kaigara")
 	viper.AddConfigPath("$HOME/.kaigara")
 
-	err := viper.ReadInConfig()
-	if err != nil {
-		term.Say("No configuration found")
-	}
+	viper.ReadInConfig()
 }
 
 func parsePath() []string {
