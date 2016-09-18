@@ -31,6 +31,6 @@ func Parse() {
 	if err := viper.ReadInConfig(); err == nil {
 		term.Say("Using metafile: " + viper.ConfigFileUsed())
 	} else {
-		term.Say("No Metafile found")
+		term.Warning("No Metafile found")
 	}
 }

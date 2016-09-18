@@ -2,7 +2,6 @@ package operation
 
 import (
 	"io/ioutil"
-	"log"
 	"path/filepath"
 
 	"github.com/mod/kaigara/pkg/config"
@@ -14,7 +13,7 @@ func apply(operationPath string) {
 	files, err := ioutil.ReadDir(operationPath)
 
 	if err != nil {
-		log.Fatal(err)
+		term.Error(err.Error())
 	}
 
 	for _, file := range files {
@@ -30,6 +29,6 @@ func RollUp() {
 	} else if file.Exists(operationDir) {
 		apply(operationDir)
 	} else {
-		log.Fatal("Missing operation folder")
+		term.Error("Missing operation folder")
 	}
 }
