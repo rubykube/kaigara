@@ -11,9 +11,9 @@ package cmd
 import (
 	"github.com/mod/kaigara/pkg/metadata"
 	"github.com/mod/kaigara/pkg/resource"
+	"github.com/mod/kaigara/pkg/term"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"log"
 )
 
 // renderCmd represents the render command
@@ -32,7 +32,7 @@ var renderCmd = &cobra.Command{
 		if len(args) > 0 {
 			resource.Render(args[0], viper.AllSettings())
 		} else {
-			log.Fatal("Error: no template given")
+			term.Error("Error: no template given")
 		}
 	},
 }

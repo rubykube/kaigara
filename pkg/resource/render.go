@@ -3,7 +3,7 @@ package resource
 import (
 	"github.com/mod/kaigara/pkg/config"
 	"github.com/mod/kaigara/pkg/file"
-	"log"
+	"github.com/mod/kaigara/pkg/term"
 	"os"
 	"path/filepath"
 	"text/template"
@@ -27,11 +27,11 @@ func Render(tmpl string, data map[string]interface{}) {
 	fullpath := filepath.Join(resourcesPath, tmpl)
 	t, err := template.ParseFiles(fullpath + ".tmpl")
 	if err != nil {
-		log.Fatal(err)
+		term.Error(err.Error())
 	}
 
 	err = t.Execute(os.Stdout, data)
 	if err != nil {
-		log.Fatal(err)
+		term.Error(err.Error())
 	}
 }
