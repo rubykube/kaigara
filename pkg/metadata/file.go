@@ -29,7 +29,7 @@ func Parse() {
 		}
 	}
 	if err := viper.ReadInConfig(); err == nil {
-		term.Say("Using metafile: " + viper.ConfigFileUsed())
+		term.Warning("Using metafile: " + viper.ConfigFileUsed())
 	} else {
 		term.Warning("No Metafile found")
 	}
