@@ -18,13 +18,15 @@ import (
 
 // renderCmd represents the render command
 var renderCmd = &cobra.Command{
-	Use:   "render",
+	Use:   "render NAME",
 	Short: "Generate a file from a template",
 	Long: `Read metadata for rendering resource pipeline
 
   In local development it's recommended to setup
   default variables into metadata file
-  using yaml, toml, json, xml format.`,
+  using yaml, toml, json, xml format.
+
+	Example: kaigara render server.conf > /etc/server.conf`,
 
 	Run: func(cmd *cobra.Command, args []string) {
 
