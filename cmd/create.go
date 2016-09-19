@@ -9,9 +9,12 @@
 package cmd
 
 import (
-	"github.com/mod/kaigara/pkg/term"
+	"github.com/mod/kaigara/pkg/file"
 	"github.com/spf13/cobra"
+	"path"
 )
+
+var dir string
 
 // createCmd represents the create command
 var createCmd = &cobra.Command{
@@ -21,10 +24,10 @@ var createCmd = &cobra.Command{
   this command will create a basic skeleton with kaigara
   Dockerfile.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		term.Create("Dockerfile")
-		term.Create("metadata.yml")
-		term.Create("operations/")
-		term.Create("resources/")
+		file.CreateFile(path.Join(dir, "Dockerfile"))
+		file.CreateFile(path.Join(dir, "metadata.yml"))
+		file.CreateDir(path.Join(dir, "operations/"))
+		file.CreateDir(path.Join(dir, "resources/"))
 	},
 }
 
@@ -32,4 +35,5 @@ func init() {
 	RootCmd.AddCommand(createCmd)
 
 	createCmd.Flags().String("image", "debian:latest", "Dockerfile base image")
+	createCmd.Flags().StringVar(&dir, "path", ".", "Project directory")
 }
