@@ -12,7 +12,6 @@ import (
 	"github.com/mod/kaigara/pkg/operation"
 	"github.com/mod/kaigara/pkg/term"
 	"github.com/spf13/cobra"
-	"log"
 )
 
 // execCmd represents the exec command
@@ -23,11 +22,10 @@ var execCmd = &cobra.Command{
   search in $PATH for the executable and run it in a child
   process`,
 	Run: func(cmd *cobra.Command, args []string) {
-		term.Say("exec called")
 		if len(args) > 0 {
 			operation.Execute(args[0], args[1:])
 		} else {
-			log.Fatal("Missing application to exec")
+			term.Error("Missing application to exec")
 		}
 	},
 }

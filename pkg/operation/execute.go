@@ -15,8 +15,7 @@
 package operation
 
 import (
-	"fmt"
-
+	"github.com/mod/kaigara/pkg/term"
 	"os"
 	"os/exec"
 	"os/signal"
@@ -31,7 +30,7 @@ func Execute(cmd string, args []string) (pid int) {
 
 	err := process.Start()
 	if err != nil {
-		fmt.Println(err)
+		term.Error(err.Error())
 		return
 	}
 
@@ -48,7 +47,7 @@ func Execute(cmd string, args []string) (pid int) {
 	err = process.Wait()
 
 	if err != nil {
-		fmt.Println(err)
+		term.Error(err.Error())
 		return
 	}
 

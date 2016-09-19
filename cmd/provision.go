@@ -10,7 +10,6 @@ package cmd
 
 import (
 	"github.com/mod/kaigara/pkg/operation"
-	"github.com/mod/kaigara/pkg/term"
 	"github.com/spf13/cobra"
 )
 
@@ -24,7 +23,6 @@ var provisionCmd = &cobra.Command{
   Step 2: Execute all pending operations using exec
   Step 3: Update the index to reflect last operations`,
 	Run: func(cmd *cobra.Command, args []string) {
-		term.Say("provision called")
 		operation.RollUp()
 	},
 }
