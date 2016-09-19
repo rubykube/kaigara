@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/fatih/color"
 	"github.com/spf13/viper"
+	"os"
 )
 
 func Warning(msg string) string {
@@ -11,7 +12,7 @@ func Warning(msg string) string {
 	orange := color.New(color.FgRed, color.FgYellow, color.Bold)
 	print := orange.SprintfFunc()("Warning: %s", msg)
 
-	fmt.Println(print)
+	fmt.Fprintln(os.Stderr, print)
 
 	return print
 }
@@ -21,7 +22,7 @@ func Error(msg string) string {
 	red := color.New(color.FgRed, color.Bold)
 
 	print := red.SprintfFunc()("Error: %s", msg)
-	fmt.Println(print)
+	fmt.Fprintln(os.Stderr, print)
 
 	return print
 }
