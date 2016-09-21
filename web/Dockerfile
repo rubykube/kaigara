@@ -8,7 +8,7 @@ RUN apt-get update -y \
       wget git ca-certificates \
       && rm -rf /var/lib/apt/lists/*
 
-RUN wget https://github.com/spf13/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_linux-64bit.tgz && \
+RUN wget -q https://github.com/spf13/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_linux-64bit.tgz && \
       tar xzf hugo_${HUGO_VERSION}_linux-64bit.tgz && \
       rm -r hugo_${HUGO_VERSION}_linux-64bit.tgz && \
       mv hugo /usr/local/bin/hugo
@@ -26,4 +26,4 @@ EXPOSE 1313
 
 ENTRYPOINT ["hugo"]
 
-CMD ["server"]
+CMD ["server", "--bind", "0.0.0.0"]
