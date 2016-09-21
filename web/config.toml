@@ -1,0 +1,79 @@
+baseurl = "http://www.kaigara.org/"
+languageCode = "en-us"
+title = "Kaigara"
+theme = "hugo-material-docs"
+metadataformat = "yaml"
+canonifyurls = true
+# Enable Google Analytics by entering your tracking id
+googleAnalytics = ""
+
+[params]
+	# General information
+	author = "mod"
+	description = "Kaigara devops swiss army knife."
+	copyright = "Released under the MIT license"
+
+	# Repository
+	provider = "GitHub"
+	repo_url = "https://github.com/mod/kaigara"
+
+	version = "1.0.0"
+	logo = "images/logo.png"
+	favicon = ""
+
+	permalink = "#"
+
+	# Custom assets
+	custom_css = []
+	custom_js  = []
+
+	# Syntax highlighting theme
+	highlight_css  = ""
+
+[params.palette]
+  	primary = "red"
+  	accent  = "light-green"
+
+[params.font]
+	text = "Ubuntu"
+	code = "Ubuntu Mono"
+
+[social]
+	twitter = ""
+	github  = "mod"
+
+[[menu.main]]
+	name   = "Kaigara"
+	url    = "/"
+	weight = 0
+
+[[menu.main]]
+	name   = "Getting started"
+	url    = "getting-started/"
+	weight = 10
+
+[[menu.main]]
+	name   = "Documentation"
+	url    = "doc/"
+	weight = 20
+
+[[menu.main]]
+	name   = "Change log"
+	url    = "changelog/"
+	weight = 30
+
+[[menu.main]]
+	name   = "Roadmap"
+	url    = "roadmap/"
+	weight = 40
+
+[[menu.main]]
+	name   = "License"
+	url    = "license/"
+	weight = 50
+
+[blackfriday]
+	smartypants	= true
+	fractions = true
+	smartDashes = true
+	plainIDAnchors = true
