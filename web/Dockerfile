@@ -16,8 +16,9 @@ RUN wget https://github.com/spf13/hugo/releases/download/v${HUGO_VERSION}/hugo_$
 RUN groupadd web
 RUN useradd -g web -m web
 
-USER web
 ADD . /home/web
+RUN chown web /home/web -R
+USER web
 
 WORKDIR /home/web
 
