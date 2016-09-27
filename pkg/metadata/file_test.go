@@ -8,7 +8,7 @@ import (
 )
 
 func TestParse(t *testing.T) {
-	file, _ := os.Create("metadata.yml")
+	file, _ := os.Create("defaults.yml")
 	filename, _ := filepath.Abs(file.Name())
 
 	file.WriteString("test: data")
@@ -16,7 +16,7 @@ func TestParse(t *testing.T) {
 
 	Parse()
 
-	os.Remove("metadata.yml")
+	os.Remove("defaults.yml")
 
 	if viper.ConfigFileUsed() != filename {
 		t.Fail()

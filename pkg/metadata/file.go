@@ -21,16 +21,37 @@ func metaPath() []string {
 }
 
 func Parse() {
-	viper.SetConfigName("metadata")
+	viper.SetConfigName("defaults")
 	for _, dir := range metaPath() {
-		if file.Exists(dir + "/metadata.yml") {
+		if file.Exists(dir + "/defaults.yml") {
 			viper.AddConfigPath(dir)
 			break
 		}
 	}
-	if err := viper.ReadInConfig(); err == nil {
-		term.Say("Using metafile: " + viper.ConfigFileUsed())
-	} else {
+	if err := viper.ReadInConfig(); err != nil {
 		term.Warning("No Metafile found")
+	}
+}
+
+func ParseRemote() {
+	var (
+		provider      = config.Get("remote.provider")
+		address       = config.Get("remote.address")
+		path          = config.Get("remote.path")
+		configType    = config.Get("remote.configType")
+		secretKeyring = config.Get("remote.secretKeyring")
+	)
+
+	if secretKeyring == "" {
+		viper.AddRemoteProvider(provider, address, path)
+	} else {
+		viper.AddSecureRemoteProvider(provider, address, path, secretKeyring)
+	}
+
+	viper.SetConfigType(configType)
+
+	err := viper.ReadRemoteConfig()
+	if err != nil {
+		term.Error(err.Error())
 	}
 }

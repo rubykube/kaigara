@@ -25,7 +25,7 @@ var createCmd = &cobra.Command{
   Dockerfile.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		file.CreateFile(path.Join(dir, "Dockerfile"))
-		file.CreateFile(path.Join(dir, "metadata.yml"))
+		file.CreateFile(path.Join(dir, "defaults.yml"))
 		file.CreateDir(path.Join(dir, "operations/"))
 		file.CreateDir(path.Join(dir, "resources/"))
 	},

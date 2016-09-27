@@ -9,6 +9,7 @@
 package cmd
 
 import (
+	"github.com/mod/kaigara/pkg/config"
 	"github.com/mod/kaigara/pkg/metadata"
 	"github.com/mod/kaigara/pkg/resource"
 	"github.com/mod/kaigara/pkg/term"
@@ -31,6 +32,11 @@ var renderCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 
 		metadata.Parse()
+
+		if config.Get("remote.provider") != "" {
+			metadata.ParseRemote()
+		}
+
 		if len(args) > 0 {
 			resource.Render(args[0], viper.AllSettings())
 		} else {
