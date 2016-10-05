@@ -1,0 +1,7 @@
+app:
+  test1:
+    value1: 100
+    value2: 200
+  test2:
+    value3: 300
+    value4: 400
