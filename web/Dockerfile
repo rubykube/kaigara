@@ -22,8 +22,8 @@ USER web
 
 WORKDIR /home/web
 
-EXPOSE 1313
+EXPOSE 8080
 
 ENTRYPOINT ["hugo"]
 
-CMD ["server", "--bind", "0.0.0.0"]
+CMD ["server", "--bind=0.0.0.0", "--port=8080", "--appendPort=false", "--baseURL=http://www.kaigara.org", "--watch=false"]

@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: kaigara-org
+  namespace: kaigara
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: kaiweb
+    spec:
+      containers:
+      - name: kaiweb
+        image: kaigara/web:latest
+        ports:
+        - containerPort: 8080
