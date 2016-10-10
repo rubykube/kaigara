@@ -1,17 +1,17 @@
 FROM debian:latest
 MAINTAINER MoD <mod@kaigara.org>
 
-ENV HUGO_VERSION=0.16
+ENV HUGO_VERSION=0.17
 
 RUN apt-get update -y \
       && apt-get install -y \
       wget git ca-certificates \
       && rm -rf /var/lib/apt/lists/*
 
-RUN wget -q https://github.com/spf13/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_linux-64bit.tgz && \
-      tar xzf hugo_${HUGO_VERSION}_linux-64bit.tgz && \
-      rm -r hugo_${HUGO_VERSION}_linux-64bit.tgz && \
-      mv hugo /usr/local/bin/hugo
+RUN wget -q https://github.com/spf13/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_Linux-64bit.tar.gz && \
+      tar xzf hugo_${HUGO_VERSION}_Linux-64bit.tar.gz && \
+      rm -r hugo_${HUGO_VERSION}_Linux-64bit.tar.gz && \
+      mv hugo_0.17_linux_amd64/hugo_0.17_linux_amd64 /usr/local/bin/hugo
 
 RUN groupadd web
 RUN useradd -g web -m web

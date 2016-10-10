@@ -12,6 +12,6 @@ spec:
     spec:
       containers:
       - name: kaiweb
-        image: kaigara/web:0.0.2
+        image: kaigara/web:0.0.3
         ports:
         - containerPort: 8080
