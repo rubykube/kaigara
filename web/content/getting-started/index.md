@@ -42,7 +42,7 @@ docker run -it --rm kaigara/box render config.conf.tmpl
 ### Usage
 
 ```
-igara is a lightweight provisioning system for unix
+Kaigara is a lightweight provisioning system for unix
 
   By embeding operations and resources into your application containers
   kaigara will run all your provisioning scripts before starting the app.
