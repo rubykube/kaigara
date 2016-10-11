@@ -1,10 +1,9 @@
 NAME = kaigara/web
-VERSION = 0.0.3
+VERSION = 0.0.4
 
 .PHONY: build clean
 
-build:
-	git submodule update --remote
+build:	module
 	docker build -t $(NAME):$(VERSION) --rm .
 	docker tag $(NAME):$(VERSION) $(NAME):latest
 
@@ -13,6 +12,10 @@ release: build
 
 deploy: release
 	kubectl apply -f kube
+
+module:
+	git submodule init
+	git submodule update --remote
 
 clean:
 	docker rmi -f $(NAME):$(VERSION)
