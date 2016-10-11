@@ -39,3 +39,29 @@ docker run -it --rm kaigara/box provision
 docker run -it --rm kaigara/box render config.conf.tmpl
 ```
 
+### Usage
+
+```
+Kaigara is a lightweight provisioning system for unix
+
+  By embeding operations and resources into your application containers
+  kaigara will run all your provisioning scripts before starting the app.
+
+Usage:
+  kaigara [command]
+
+Available Commands:
+  create      Create a Kaigara default docker project
+  exec        Execute an executable in a child process
+  provision   Provisioning using operations
+  render      Generate a file from a template
+  start       Runs a <command> after provision
+
+Flags:
+      --color           enable colorized output
+      --config string   config file (default is $HOME/.kairc)
+  -h, --help            help for kaigara
+
+Use "kaigara [command] --help" for more information about a command.
+
+```
