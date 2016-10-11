@@ -31,8 +31,15 @@ RUN wget --quiet https://github.com/mod/kaigara/releases/download/$KAIGARA_VERSI
 
     COPY operations /opt/provision/operations
     COPY resources /opt/provision/resources
+    COPY metadata.yml /opt/provision/metadata.yml
 ## Kaigara ]>
 ```
+
+### Download
+
+Linux amd64/i386 are available but also Mac OS X release:
+
+[https://github.com/mod/kaigara/releases]
 
 ### Philosophy
 
@@ -57,5 +64,6 @@ Kaigara the stupid provisioning tool.
 ### Contribute
 
 ```
-go get github/mod/kaigara
+go get -v github.com/mod/kaigara
 ```
+
