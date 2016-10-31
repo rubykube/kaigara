@@ -5,6 +5,8 @@ import (
 	"github.com/mod/kaigara/pkg/file"
 	"github.com/mod/kaigara/pkg/term"
 	"github.com/spf13/viper"
+	"os"
+	"strings"
 )
 
 var metaFile string
@@ -32,5 +34,13 @@ func Parse() {
 		term.Say("Using metafile: " + viper.ConfigFileUsed())
 	} else {
 		term.Warning("No Metafile found")
+	}
+	parseEnv()
+}
+
+func parseEnv() {
+	for _, e := range os.Environ() {
+		v := strings.Split(e, "=")
+		viper.Set(v[0], v[1])
 	}
 }
