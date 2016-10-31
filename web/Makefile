@@ -3,7 +3,7 @@ VERSION = 0.0.5
 
 .PHONY: build clean
 
-build:	module
+build: docs module
 	docker build -t $(NAME):$(VERSION) --rm .
 	docker tag $(NAME):$(VERSION) $(NAME):latest
 
@@ -19,3 +19,6 @@ module:
 
 clean:
 	docker rmi -f $(NAME):$(VERSION)
+
+docs:
+	bin/docsgen.sh
