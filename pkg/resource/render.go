@@ -4,9 +4,12 @@ import (
 	"github.com/mod/kaigara/pkg/config"
 	"github.com/mod/kaigara/pkg/file"
 	"github.com/mod/kaigara/pkg/term"
+
 	"os"
 	"path/filepath"
 	"text/template"
+
+	_ "github.com/spf13/viper/remote"
 )
 
 func tmplPath() []string {
