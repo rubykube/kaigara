@@ -1,26 +1,23 @@
 package resource
 
 import (
-	"github.com/mod/kaigara/pkg/metadata"
-	"github.com/spf13/viper"
-	"io/ioutil"
-	"os"
 	"testing"
+
+	"github.com/spf13/viper"
 )
 
-func TestRender(t *testing.T) {
-	dir := "./resources"
-	os.Mkdir(dir, 0755)
+var testRenderData = `
+test1: 123
+test2: kaigara
+`
 
-	mdata := []byte("var1: test1\nvar2: test2")
-	ioutil.WriteFile("metadata.yml", mdata, 0755)
-	metadata.Parse()
+func TestParseTemplate(t *testing.T) {
+	viper.Set("test1", 123)
+	viper.Set("test2", "kaigara")
 
-	tpl := []byte("{{.var1}} {{.var2}}\n")
-	ioutil.WriteFile(dir+"/file.txt.tmpl", tpl, 0755)
+	result := ParseTemplate("{{.test1}} {{.test2}}", viper.AllSettings())
 
-	Render("file.txt", viper.AllSettings())
-
-	os.Remove("metadata.yml")
-	os.RemoveAll(dir)
+	if result != "123 kaigara" {
+		t.Fail()
+	}
 }

@@ -9,12 +9,9 @@
 package cmd
 
 import (
-	"github.com/mod/kaigara/pkg/term"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
-
-var cfgFile string
 
 // RootCmd represents the base command when called without any subcommands
 var RootCmd = &cobra.Command{
@@ -35,27 +32,6 @@ func Execute() {
 }
 
 func init() {
-	cobra.OnInitialize(initConfig)
-	RootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.kairc)")
 	RootCmd.PersistentFlags().Bool("color", false, "enable colorized output")
 	viper.BindPFlag("core.color", RootCmd.PersistentFlags().Lookup("color"))
-}
-
-// initConfig reads in config file and ENV variables if set.
-// with the ability to specify config file via flag
-func initConfig() {
-	if cfgFile != "" {
-		viper.SetConfigFile(cfgFile)
-	}
-
-	viper.SetConfigName(".kairc")
-	viper.AddConfigPath("$HOME")
-	viper.AutomaticEnv()
-
-	err := viper.ReadInConfig()
-	if err != nil {
-		term.Warning("No configuration found")
-	} else {
-		term.Say("Using config file: " + viper.ConfigFileUsed())
-	}
 }

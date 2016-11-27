@@ -9,13 +9,14 @@
 package cmd
 
 import (
-	"github.com/mod/kaigara/pkg/config"
 	"github.com/mod/kaigara/pkg/metadata"
 	"github.com/mod/kaigara/pkg/resource"
 	"github.com/mod/kaigara/pkg/term"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
+
+var configmap string
 
 // renderCmd represents the render command
 var renderCmd = &cobra.Command{
@@ -30,15 +31,10 @@ var renderCmd = &cobra.Command{
 	Example: kaigara render server.conf > /etc/server.conf`,
 
 	Run: func(cmd *cobra.Command, args []string) {
-
 		metadata.Parse()
 
-		if config.Get("remote.provider") != "" {
-			metadata.ParseRemote()
-		}
-
 		if len(args) > 0 {
-			resource.Render(args[0], viper.AllSettings())
+			resource.Render("resources/"+args[0]+".tmpl", viper.AllSettings())
 		} else {
 			term.Error("Error: no template given")
 		}

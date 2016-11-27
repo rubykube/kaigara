@@ -1,8 +1,9 @@
 package config
 
 import (
-	"github.com/spf13/viper"
 	"strings"
+
+	"github.com/spf13/viper"
 )
 
 var cfg *Config
@@ -11,26 +12,9 @@ type Config struct {
 	path []string
 }
 
-func setDefaults() {
-	viper.SetDefault("home", "/opt/provision")
-	viper.SetDefault("path", "/opt/provision/operations")
-	viper.SetDefault("tmpl", "/opt/provision/resources")
-	viper.SetDefault("env", "development")
-
-	viper.SetDefault("remote.provider", "etcd")
-	viper.SetDefault("remote.address", "http://127.0.0.1:4001")
-	viper.SetDefault("remote.path", "/config/kaigara.json")
-	viper.SetDefault("remote.configType", "json")
-	viper.SetDefault("remote.secretKeyring", "")
-
-	viper.SetDefault("core.color", "false")
-}
-
 func parseConfig() {
 	viper.SetConfigName("config")
 	viper.AddConfigPath("/etc/kaigara")
-	viper.AddConfigPath("$HOME/.kaigara")
-	viper.AddConfigPath(".")
 
 	viper.ReadInConfig()
 }
@@ -42,7 +26,6 @@ func parsePath() []string {
 
 func Init() {
 	cfg = new(Config)
-	setDefaults()
 	parseConfig()
 	viper.SetEnvPrefix("kaigara")
 	viper.AutomaticEnv()
