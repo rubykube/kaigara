@@ -1,8 +1,10 @@
 package file
 
 import (
-	"github.com/mod/kaigara/pkg/term"
+	"io/ioutil"
 	"os"
+
+	"github.com/mod/kaigara/pkg/term"
 )
 
 func Exists(filename string) bool {
@@ -41,5 +43,21 @@ func CreateDir(dirname string) {
 		} else {
 			term.Create(dirname)
 		}
+	}
+}
+
+func Read(filename string) string {
+	file, err := ioutil.ReadFile(filename)
+	if err != nil {
+		term.Error(err.Error())
+	}
+
+	return string(file)
+}
+
+func Write(filename string, data string) {
+	err := ioutil.WriteFile(filename, []byte(data), 0644)
+	if err != nil {
+		term.Error(err.Error())
 	}
 }
