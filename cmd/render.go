@@ -17,6 +17,8 @@ import (
 	"github.com/spf13/viper"
 )
 
+var configmap string
+
 // renderCmd represents the render command
 var renderCmd = &cobra.Command{
 	Use:   "render NAME",
@@ -38,7 +40,11 @@ var renderCmd = &cobra.Command{
 		}
 
 		if len(args) > 0 {
-			resource.Render(args[0], viper.AllSettings())
+			if len(configmap) > 0 {
+				resource.RenderConfigMap(args[0]+".tmpl", configmap, viper.AllSettings())
+			} else {
+				resource.Render(args[0]+".tmpl", viper.AllSettings())
+			}
 		} else {
 			term.Error("Error: no template given")
 		}
@@ -46,6 +52,7 @@ var renderCmd = &cobra.Command{
 }
 
 func init() {
+	renderCmd.Flags().StringVar(&configmap, "configmap", "", "Use a configmap from a file.")
 	RootCmd.AddCommand(renderCmd)
 	cobra.OnInitialize(metadata.SetFile)
 	// renderCmd.Flags().StringVar(&metaFile,
