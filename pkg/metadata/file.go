@@ -32,26 +32,3 @@ func Parse() {
 		term.Warning("No Metafile found")
 	}
 }
-
-func ParseRemote() {
-	var (
-		provider      = config.Get("remote.provider")
-		address       = config.Get("remote.address")
-		path          = config.Get("remote.path")
-		configType    = config.Get("remote.configType")
-		secretKeyring = config.Get("remote.secretKeyring")
-	)
-
-	if secretKeyring == "" {
-		viper.AddRemoteProvider(provider, address, path)
-	} else {
-		viper.AddSecureRemoteProvider(provider, address, path, secretKeyring)
-	}
-
-	viper.SetConfigType(configType)
-
-	err := viper.ReadRemoteConfig()
-	if err != nil {
-		term.Error(err.Error())
-	}
-}

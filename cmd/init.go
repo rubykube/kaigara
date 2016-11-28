@@ -9,17 +9,18 @@
 package cmd
 
 import (
+	"path"
+
 	"github.com/mod/kaigara/pkg/file"
 	"github.com/spf13/cobra"
-	"path"
 )
 
 var dir string
 
-// createCmd represents the create command
-var createCmd = &cobra.Command{
-	Use:   "create",
-	Short: "Create a Kaigara default docker project",
+// initCmd represents the create command
+var initCmd = &cobra.Command{
+	Use:   "init",
+	Short: "Init a Kaigara default docker project",
 	Long: `Kaigara can be used as a container entrypoint,
   this command will create a basic skeleton with kaigara
   Dockerfile.`,
@@ -32,8 +33,8 @@ var createCmd = &cobra.Command{
 }
 
 func init() {
-	RootCmd.AddCommand(createCmd)
+	RootCmd.AddCommand(initCmd)
 
-	createCmd.Flags().String("image", "debian:latest", "Dockerfile base image")
-	createCmd.Flags().StringVar(&dir, "path", ".", "Project directory")
+	initCmd.Flags().String("image", "debian:latest", "Dockerfile base image")
+	initCmd.Flags().StringVar(&dir, "path", ".", "Project directory")
 }
