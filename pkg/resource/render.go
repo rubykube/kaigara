@@ -9,8 +9,6 @@ import (
 	"github.com/mod/kaigara/pkg/term"
 
 	"text/template"
-
-	_ "github.com/spf13/viper/remote"
 )
 
 func tmplPath() []string {

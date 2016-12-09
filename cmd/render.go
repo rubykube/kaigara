@@ -16,7 +16,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-var configmap string
+var metaFile string
 
 // renderCmd represents the render command
 var renderCmd = &cobra.Command{
@@ -31,7 +31,7 @@ var renderCmd = &cobra.Command{
 	Example: kaigara render server.conf > /etc/server.conf`,
 
 	Run: func(cmd *cobra.Command, args []string) {
-		metadata.Parse()
+		metadata.Parse(metaFile)
 
 		if len(args) > 0 {
 			resource.Render("resources/"+args[0]+".tmpl", viper.AllSettings())
@@ -43,7 +43,5 @@ var renderCmd = &cobra.Command{
 
 func init() {
 	RootCmd.AddCommand(renderCmd)
-	cobra.OnInitialize(metadata.SetFile)
-	// renderCmd.Flags().StringVar(&metaFile,
-	// "metafile", "", "Change the metafile path")
+	renderCmd.Flags().StringVar(&metaFile, "metafile", "", "Change the metafile path")
 }
