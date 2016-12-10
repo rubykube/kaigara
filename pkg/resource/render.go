@@ -4,19 +4,11 @@ import (
 	"bytes"
 	"fmt"
 
-	"github.com/mod/kaigara/pkg/config"
 	"github.com/mod/kaigara/pkg/file"
 	"github.com/mod/kaigara/pkg/term"
 
 	"text/template"
-
-	_ "github.com/spf13/viper/remote"
 )
-
-func tmplPath() []string {
-	tmplPath := []string{"./resources", config.Get("tmpl")}
-	return tmplPath
-}
 
 func Render(f string, data map[string]interface{}) {
 	tmpl := file.Read(f)

@@ -16,11 +16,11 @@ import (
 
 // execCmd represents the exec command
 var execCmd = &cobra.Command{
-	Use:   "exec",
+	Use:   "exec PROGRAM",
 	Short: "Execute an executable in a child process",
 	Long: `This command can be used as an entrypoint, it will
-  search in $PATH for the executable and run it in a child
-  process`,
+search in $PATH for the executable and run it in a child
+process`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) > 0 {
 			operation.Execute(args[0], args[1:])

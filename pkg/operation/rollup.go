@@ -4,7 +4,6 @@ import (
 	"io/ioutil"
 	"path/filepath"
 
-	"github.com/mod/kaigara/pkg/config"
 	"github.com/mod/kaigara/pkg/file"
 	"github.com/mod/kaigara/pkg/term"
 )
@@ -23,7 +22,7 @@ func apply(operationPath string) {
 }
 
 func RollUp() {
-	operationDir := config.Get("path")
+	operationDir := "/opt/provision/operation"
 	if file.Exists("./operations") {
 		apply("./operations")
 	} else if file.Exists(operationDir) {

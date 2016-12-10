@@ -1,43 +1,29 @@
 package config
 
 import (
-	"strings"
-
-	"github.com/spf13/viper"
+	"os"
 )
 
 var cfg *Config
 
 type Config struct {
-	path []string
-}
-
-func parseConfig() {
-	viper.SetConfigName("config")
-	viper.AddConfigPath("/etc/kaigara")
-
-	viper.ReadInConfig()
-}
-
-func parsePath() []string {
-	mp := ".:" + Get("path")
-	return strings.Split(mp, ":")
+	metapath string
+	color    bool
 }
 
 func Init() {
 	cfg = new(Config)
-	parseConfig()
-	viper.SetEnvPrefix("kaigara")
-	viper.AutomaticEnv()
+	cfg.metapath = readPath()
 }
 
-func Get(name string) string {
-	return viper.GetString(name)
+func GetPath() string {
+	return cfg.metapath
 }
 
-func GetPath() []string {
-	if cfg.path == nil {
-		cfg.path = parsePath()
+func readPath() string {
+	path := os.Getenv("KAIGARA_METADATA")
+	if path != "" {
+		return path
 	}
-	return cfg.path
+	return "/etc/kaigara"
 }

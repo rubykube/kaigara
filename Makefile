@@ -10,6 +10,9 @@ $(NAME):
 	echo "Building $(NAME)"
 	go build -v
 
+test:
+	go test -v ./...
+
 dist: dist-clean
 	mkdir -p dist/linux/amd64		&& CGO_ENABLED=0 GOOS=linux GOARCH=amd64	go build -o dist/linux/amd64/$(NAME)
 	mkdir -p dist/linux/i386		&& CGO_ENABLED=0 GOOS=linux GOARCH=386		go build -o dist/linux/i386/$(NAME)

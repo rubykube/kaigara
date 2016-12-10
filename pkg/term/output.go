@@ -3,7 +3,6 @@ package term
 import (
 	"fmt"
 	"github.com/fatih/color"
-	"github.com/spf13/viper"
 	"os"
 )
 
@@ -49,5 +48,5 @@ func Create(name string) string {
 }
 
 func set_config() {
-	color.NoColor = !viper.GetBool("core.color")
+	color.NoColor = false
 }

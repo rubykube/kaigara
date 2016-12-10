@@ -16,14 +16,11 @@ import (
 
 // startCmd represents the start command
 var startCmd = &cobra.Command{
-	Use:   "start",
-	Short: "Runs a <command> after provision",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Use:   "start PROGRAM",
+	Short: "Runs a <PROGRAM> after provision",
+	Long: `Run all operations and then start the PROGRAM
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+Operations should be protected against re-executions.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		operation.RollUp()
 		if len(args) > 0 {
