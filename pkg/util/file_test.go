@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func ExistsTest(t *testing.T) {
+func TestExists(t *testing.T) {
 	file, _ := ioutil.TempFile(".", "file.tmp")
 	ex := Exists(file.Name())
 
@@ -17,7 +17,21 @@ func ExistsTest(t *testing.T) {
 	}
 }
 
-func CreateFileTest(t *testing.T) {
+func TestReadGlob(t *testing.T) {
+	metadir, _ := ioutil.TempDir("", "metadata-")
+	CreateFile(metadir + "/values.yml")
+	CreateFile(metadir + "/meta.yaml")
+	files := ReadGlob(metadir + "/*.y*ml")
+	for _, file := range files {
+		ex := Exists(file)
+		if !ex {
+			t.Error(ex)
+		}
+	}
+	os.RemoveAll(metadir)
+}
+
+func TestCreateFile(t *testing.T) {
 	filename := "test_file.txt"
 	CreateFile(filename)
 
@@ -30,7 +44,7 @@ func CreateFileTest(t *testing.T) {
 	os.Remove(filename)
 }
 
-func CreateDirTest(t *testing.T) {
+func TestCreateDir(t *testing.T) {
 	dirname := "test_dir"
 	CreateDir(dirname)
 

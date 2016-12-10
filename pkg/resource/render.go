@@ -4,14 +4,14 @@ import (
 	"bytes"
 	"fmt"
 
-	"github.com/mod/kaigara/pkg/file"
 	"github.com/mod/kaigara/pkg/term"
+	"github.com/mod/kaigara/pkg/util"
 
 	"text/template"
 )
 
 func Render(f string, data map[string]interface{}) {
-	tmpl := file.Read(f)
+	tmpl := util.Read(f)
 	rendered := ParseTemplate(tmpl, data)
 	fmt.Println(rendered)
 }

@@ -3,7 +3,9 @@ package util
 import (
 	"io/ioutil"
 	"os"
+	"path/filepath"
 
+	"github.com/mod/kaigara/pkg/log"
 	"github.com/mod/kaigara/pkg/term"
 )
 
@@ -14,6 +16,14 @@ func Exists(filename string) bool {
 		return false
 	}
 	return true
+}
+
+func ReadGlob(path string) []string {
+	matches, err := filepath.Glob(path)
+	if err != nil {
+		log.Error(err.Error())
+	}
+	return matches
 }
 
 func CreateFile(filename string) {
