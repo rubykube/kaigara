@@ -1,17 +1,64 @@
 package metadata
 
 import (
-	"os"
 	"testing"
+	"github.com/stretchr/testify/assert"
+
+	"os"
+	"os/exec"
+	"bytes"
+	"fmt"
+	"strings"
+	"github.com/mod/kaigara/pkg/core"
 )
 
-func TestParse(t *testing.T) {
-	file, _ := os.Create("defaults.yml")
+func MkTempDir(t *testing.T) string {
+	cmd := exec.Command("mktemp", "-d")
 
-	file.WriteString("test: data")
+	var out bytes.Buffer
+	cmd.Stdout = &out
+	err := cmd.Run()
+	if err != nil {
+		t.Fatal(err)
+	}
+	return strings.TrimSpace(out.String())
+}
+
+func DumpFile(t *testing.T, path string, content string) {
+	file, err := os.Create(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	file.WriteString(content)
 	file.Close()
+}
 
-	Parse()
+func TestParse(t *testing.T) {
+	tmpdir := MkTempDir(t)
+	DumpFile(t, fmt.Sprintf("%s/defaults.yml", tmpdir), "test: data")
 
-	os.Remove("defaults.yml")
+	core.Init()
+	core.Set("core.path.metadata", tmpdir)
+
+	expected := map[string]interface{}{"test":"data"}
+	actual := Parse()
+	assert.Equal(t, actual, expected, "they should be equal")
+
+	os.RemoveAll(tmpdir)
+}
+
+func TestParseWithMerge(t *testing.T) {
+	tmpdir := MkTempDir(t)
+	DumpFile(t, fmt.Sprintf("%s/defaults.yml", tmpdir), "test: data")
+	DumpFile(t, fmt.Sprintf("%s/additionals.yml", tmpdir), "info: data")
+
+	core.Init()
+	core.Set("core.path.metadata", tmpdir)
+
+	expected := map[string]interface{}{"test":"data", "info":"data"}
+	actual := Parse()
+	assert.Equal(t, actual, expected, "they should be equal")
+
+	os.RemoveAll(tmpdir)
 }
