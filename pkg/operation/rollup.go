@@ -4,8 +4,8 @@ import (
 	"io/ioutil"
 	"path/filepath"
 
-	"github.com/mod/kaigara/pkg/file"
 	"github.com/mod/kaigara/pkg/term"
+	"github.com/mod/kaigara/pkg/util"
 )
 
 func apply(operationPath string) {
@@ -23,9 +23,9 @@ func apply(operationPath string) {
 
 func RollUp() {
 	operationDir := "/opt/provision/operation"
-	if file.Exists("./operations") {
+	if util.Exists("./operations") {
 		apply("./operations")
-	} else if file.Exists(operationDir) {
+	} else if util.Exists(operationDir) {
 		apply(operationDir)
 	} else {
 		term.Error("Missing operation folder")

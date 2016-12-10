@@ -11,7 +11,7 @@ package cmd
 import (
 	"path"
 
-	"github.com/mod/kaigara/pkg/file"
+	"github.com/mod/kaigara/pkg/util"
 	"github.com/spf13/cobra"
 )
 
@@ -25,10 +25,10 @@ var initCmd = &cobra.Command{
   this command will create a basic skeleton with kaigara
   Dockerfile.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		file.CreateFile(path.Join(dir, "Dockerfile"))
-		file.CreateFile(path.Join(dir, "defaults.yml"))
-		file.CreateDir(path.Join(dir, "operations/"))
-		file.CreateDir(path.Join(dir, "resources/"))
+		util.CreateFile(path.Join(dir, "Dockerfile"))
+		util.CreateFile(path.Join(dir, "defaults.yml"))
+		util.CreateDir(path.Join(dir, "operations/"))
+		util.CreateDir(path.Join(dir, "resources/"))
 	},
 }
 
