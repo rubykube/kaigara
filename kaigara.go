@@ -10,10 +10,10 @@ package main
 
 import (
 	"github.com/mod/kaigara/cmd"
-	"github.com/mod/kaigara/pkg/config"
+	"github.com/mod/kaigara/pkg/core"
 )
 
 func main() {
-	config.Init()
+	core.Init()
 	cmd.Execute()
 }
