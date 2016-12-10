@@ -7,7 +7,7 @@ import (
 )
 
 func Warning(msg string) string {
-	set_config()
+	SetConfig()
 	orange := color.New(color.FgRed, color.FgYellow, color.Bold)
 	print := orange.SprintfFunc()("Warning: %s", msg)
 
@@ -17,7 +17,7 @@ func Warning(msg string) string {
 }
 
 func Error(msg string) string {
-	set_config()
+	SetConfig()
 	red := color.New(color.FgRed, color.Bold)
 
 	print := red.SprintfFunc()("Error: %s", msg)
@@ -27,7 +27,7 @@ func Error(msg string) string {
 }
 
 func Say(msg string) string {
-	set_config()
+	SetConfig()
 	white := color.New(color.Bold)
 	print := white.SprintFunc()(msg)
 
@@ -37,7 +37,7 @@ func Say(msg string) string {
 }
 
 func Create(name string) string {
-	set_config()
+	SetConfig()
 	bold := color.New(color.Bold)
 	green := color.New(color.FgGreen).SprintFunc()
 
@@ -47,6 +47,6 @@ func Create(name string) string {
 	return print
 }
 
-func set_config() {
+func SetConfig() {
 	color.NoColor = false
 }

@@ -10,5 +10,8 @@ test2: kaigara
 `
 
 func TestParseTemplate(t *testing.T) {
+	data := map[string]string {
+	}
+	ParseTemplate(testRenderData, data)
 	t.Fail()
 }

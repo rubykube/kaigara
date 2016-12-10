@@ -21,8 +21,8 @@ func Init() {
 	log.Init(0, os.Stderr)
 	log.Debug("Initializing kaigara core")
 
-	cfg = makeConfig()
-	importEnv()
+	cfg = MakeConfig()
+	ImportEnv()
 	log.Debug("Using metapath: " + cfg["core.path.metadata"])
 }
 
@@ -30,7 +30,11 @@ func Get(key string) string {
 	return cfg[key]
 }
 
-func makeConfig() Config {
+func Set(key string, value string) {
+	cfg[key] = value
+}
+
+func MakeConfig() Config {
 	config := Config{
 		"core.path.log":        "/var/log/kaigara",
 		"core.path.metadata":   "/etc/kaigara/metadata",
@@ -40,13 +44,13 @@ func makeConfig() Config {
 	return config
 }
 
-func importEnv() {
+func ImportEnv() {
 	for key, val := range envMap {
-		updateConfig(key, val)
+		UpdateConfig(key, val)
 	}
 }
 
-func updateConfig(key string, env string) {
+func UpdateConfig(key string, env string) {
 	value := os.Getenv(env)
 	if value != "" {
 		cfg[key] = value
