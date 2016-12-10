@@ -8,7 +8,7 @@ import (
 )
 
 func Parse() {
-	metapath := config.GetPath()
+	metapath := config.Get("core.path.metadata")
 	metafiles, err := ioutil.ReadDir(metapath)
 
 	if err != nil {
