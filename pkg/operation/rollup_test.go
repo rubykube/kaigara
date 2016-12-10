@@ -2,6 +2,7 @@ package operation
 
 import (
 	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
 	"testing"
@@ -9,10 +10,10 @@ import (
 
 func TestApply(t *testing.T) {
 	dir := prepareEnv()
-	apply(dir)
+	defer cleanup(dir)
+	runOps(dir)
 
 	_, err := os.Stat("test1.txt")
-	cleanup(dir)
 
 	if err != nil {
 		t.Fail()
@@ -21,6 +22,7 @@ func TestApply(t *testing.T) {
 
 func TestRollUp(t *testing.T) {
 	dir := prepareEnv()
+	defer cleanup(dir)
 	script := []byte("#!/bin/sh\ntouch test2.txt")
 	ioutil.WriteFile(dir+"/script2.sh", script, 0755)
 
@@ -28,22 +30,26 @@ func TestRollUp(t *testing.T) {
 
 	_, err := os.Stat("test1.txt")
 	_, err = os.Stat("test2.txt")
-	cleanup(dir)
 
 	if err != nil {
 		t.Fail()
 	}
 }
 
-func prepareEnv() (dir string) {
-	os.Mkdir("./operations", 0755)
-	dir, _ = filepath.Abs("./operations")
-	script := []byte("#!/bin/sh\ntouch test1.txt")
+func prepareEnv() string {
+	script := []byte("#!/bin/sh\ntouch test1.txt\n")
 
-	os.Mkdir(dir, 0755)
+	dir, err := filepath.Abs("./operations")
+	if err != nil {
+		log.Fatal("filepath.Abs failed")
+	}
+	err = os.Mkdir(dir, 0755)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
 	ioutil.WriteFile(dir+"/script1.sh", script, 0755)
 
-	return
+	return dir
 }
 
 func cleanup(dir string) {

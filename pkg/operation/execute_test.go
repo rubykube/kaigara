@@ -6,10 +6,14 @@ import (
 )
 
 func TestExecute(t *testing.T) {
-	pid := Execute("sleep", []string{"1"})
-	_, err := os.FindProcess(pid)
-
+	pid, err := Execute("sleep", []string{"1"})
 	if err != nil {
+		t.Fail()
+	}
+
+	_, errtest := os.FindProcess(pid)
+
+	if errtest != nil {
 		t.Fail()
 	}
 }

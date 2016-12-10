@@ -3,14 +3,13 @@ package term
 import (
 	"fmt"
 	"github.com/fatih/color"
-	"github.com/spf13/viper"
 	"os"
 )
 
 func Warning(msg string) string {
-	set_config()
-	orange := color.New(color.FgRed, color.FgYellow, color.Bold)
-	print := orange.SprintfFunc()("Warning: %s", msg)
+	SetConfig()
+	warningColor := color.New(color.FgYellow, color.Bold)
+	print := warningColor.SprintfFunc()("Warning: %s", msg)
 
 	fmt.Fprintln(os.Stderr, print)
 
@@ -18,7 +17,7 @@ func Warning(msg string) string {
 }
 
 func Error(msg string) string {
-	set_config()
+	SetConfig()
 	red := color.New(color.FgRed, color.Bold)
 
 	print := red.SprintfFunc()("Error: %s", msg)
@@ -28,7 +27,7 @@ func Error(msg string) string {
 }
 
 func Say(msg string) string {
-	set_config()
+	SetConfig()
 	white := color.New(color.Bold)
 	print := white.SprintFunc()(msg)
 
@@ -38,16 +37,16 @@ func Say(msg string) string {
 }
 
 func Create(name string) string {
-	set_config()
+	SetConfig()
 	bold := color.New(color.Bold)
 	green := color.New(color.FgGreen).SprintFunc()
 
-	print := bold.SprintFunc()(green("create "), name)
+	print := bold.SprintFunc()(green("create"), fmt.Sprintf(" %s", name))
 	fmt.Println(print)
 
 	return print
 }
 
-func set_config() {
-	color.NoColor = !viper.GetBool("core.color")
+func SetConfig() {
+	color.NoColor = false
 }

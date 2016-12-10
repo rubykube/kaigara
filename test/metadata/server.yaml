@@ -1,0 +1,7 @@
+app:
+  cache1:
+    maxItems: 100
+    itemSize: 64
+  cache2:
+    maxItems: 200
+    itemSize: 80

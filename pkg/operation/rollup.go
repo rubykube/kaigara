@@ -1,34 +1,49 @@
 package operation
 
 import (
+	"errors"
 	"io/ioutil"
 	"path/filepath"
 
-	"github.com/mod/kaigara/pkg/config"
-	"github.com/mod/kaigara/pkg/file"
-	"github.com/mod/kaigara/pkg/term"
+	"github.com/mod/kaigara/pkg/core"
+	"github.com/mod/kaigara/pkg/log"
+	"github.com/mod/kaigara/pkg/util"
 )
 
-func apply(operationPath string) {
-	files, err := ioutil.ReadDir(operationPath)
-
+func runOps(path string) error {
+	files, err := ioutil.ReadDir(path)
 	if err != nil {
-		term.Error(err.Error())
+		return err
+	}
+	if len(files) == 0 {
+		return errors.New("No operations found in folder: " + path)
 	}
 
 	for _, file := range files {
-		term.Say("Found operation: " + file.Name())
-		Execute(filepath.Join(operationPath, file.Name()), nil)
+		log.Info("Found operation: " + file.Name())
+		_, err := Execute(filepath.Join(path, file.Name()), nil)
+		if err != nil {
+			return err
+		}
 	}
+	return nil
 }
 
-func RollUp() {
-	operationDir := config.Get("path")
-	if file.Exists("./operations") {
-		apply("./operations")
-	} else if file.Exists(operationDir) {
-		apply(operationDir)
+func RollUp() error {
+	operationDir := core.Get("core.path.operations")
+	if util.Exists("./operations") {
+		err := runOps("./operations")
+		if err != nil {
+			return err
+		}
+	} else if util.Exists(operationDir) {
+		runOps(operationDir)
+		err := runOps(operationDir)
+		if err != nil {
+			return err
+		}
 	} else {
-		term.Error("Missing operation folder")
+		return errors.New("Missing operation folder")
 	}
+	return nil
 }

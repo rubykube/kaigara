@@ -2,33 +2,25 @@ package term
 
 import (
 	"github.com/fatih/color"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestSay(t *testing.T) {
-	str := Say("kaigara")
-	test := color.New(color.Bold).SprintFunc()("kaigara")
-
-	if str != test {
-		t.Error()
-	}
+	actual := Say("kaigara")
+	expected := color.New(color.Bold).SprintFunc()("kaigara")
+	assert.Equal(t, expected, actual)
 }
 
 func TestWarning(t *testing.T) {
-	str := Warning("kaigara")
-	test := color.New(color.Bold, color.FgRed, color.FgYellow).SprintFunc()("Warning: kaigara")
-
-	if str != test {
-		t.Error()
-	}
+	actual := Warning("kaigara")
+	expected := color.New(color.FgYellow, color.Bold).SprintFunc()("Warning: kaigara")
+	assert.Equal(t, expected, actual)
 }
 
 func TestCreate(t *testing.T) {
-	str := Create("kaigara")
+	actual := Create("kaigara")
 	green := color.New(color.FgGreen).SprintFunc()
-	test := color.New(color.Bold).SprintfFunc()("%s kaigara", green("create"))
-
-	if str != test {
-		t.Error()
-	}
+	expected := color.New(color.Bold).SprintfFunc()("%s kaigara", green("create"))
+	assert.Equal(t, expected, actual)
 }

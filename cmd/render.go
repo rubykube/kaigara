@@ -9,41 +9,49 @@
 package cmd
 
 import (
+	"fmt"
+
+	"github.com/mod/kaigara/pkg/core"
+	"github.com/mod/kaigara/pkg/log"
 	"github.com/mod/kaigara/pkg/metadata"
 	"github.com/mod/kaigara/pkg/resource"
-	"github.com/mod/kaigara/pkg/term"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 var configmap string
 
 // renderCmd represents the render command
 var renderCmd = &cobra.Command{
-	Use:   "render NAME",
-	Short: "Generate a file from a template",
-	Long: `Read metadata for rendering resource pipeline
+	Use:   "render TEMPLATE",
+	Short: "Generate a file on STDOUT from a TEMPLATE",
+	Long: `Read metadata files for rendering resource pipeline
 
-  In local development it's recommended to setup
-  default variables into metadata file
-  using yaml, toml, json, xml format.
+In local development it is recommended to mount default.yml
+using -v default.yml:/etc/kaigara/default.yml
 
-	Example: kaigara render server.conf > /etc/server.conf`,
+Example: kaigara render server.conf > /etc/server.conf`,
 
 	Run: func(cmd *cobra.Command, args []string) {
-		metadata.Parse()
 
 		if len(args) > 0 {
-			resource.Render("resources/"+args[0]+".tmpl", viper.AllSettings())
+			data, err := metadata.Parse()
+			template := fmt.Sprintf("%s/%s.tmpl", core.Get("core.path.resources"), args[0])
+
+			if err != nil {
+				log.Fatal(err.Error())
+			}
+
+			output, err := resource.Render(template, data)
+			fmt.Print(output)
+			if err != nil {
+				log.Fatal(err.Error())
+			}
 		} else {
-			term.Error("Error: no template given")
+			log.Error("No template given")
 		}
 	},
 }
 
 func init() {
 	RootCmd.AddCommand(renderCmd)
-	cobra.OnInitialize(metadata.SetFile)
-	// renderCmd.Flags().StringVar(&metaFile,
-	// "metafile", "", "Change the metafile path")
 }

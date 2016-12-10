@@ -10,7 +10,6 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 // RootCmd represents the base command when called without any subcommands
@@ -19,8 +18,8 @@ var RootCmd = &cobra.Command{
 	Short: "The devops swiss-army knife",
 	Long: `Kaigara is a lightweight provisioning system for unix
 
-  By embeding operations and resources into your application containers
-  kaigara will run all your provisioning scripts before starting the app.`,
+By embeding operations and resources into your application containers
+kaigara will run all your provisioning scripts before starting the app.`,
 
 	// Run: func(cmd *cobra.Command, args []string) { },
 }
@@ -32,6 +31,6 @@ func Execute() {
 }
 
 func init() {
-	RootCmd.PersistentFlags().Bool("color", false, "enable colorized output")
-	viper.BindPFlag("core.color", RootCmd.PersistentFlags().Lookup("color"))
+	//RootCmd.PersistentFlags().Bool("color", false, "enable colorized output")
+	//config.Set("core.color", RootCmd.PersistentFlags().Lookup("color"))
 }

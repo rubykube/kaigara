@@ -15,14 +15,13 @@
 package operation
 
 import (
-	"github.com/mod/kaigara/pkg/term"
 	"os"
 	"os/exec"
 	"os/signal"
 	"syscall"
 )
 
-func Execute(cmd string, args []string) (pid int) {
+func Execute(cmd string, args []string) (int, error) {
 	process := exec.Command(cmd, args...)
 	process.Stdin = os.Stdin
 	process.Stdout = os.Stdout
@@ -30,8 +29,7 @@ func Execute(cmd string, args []string) (pid int) {
 
 	err := process.Start()
 	if err != nil {
-		term.Error(err.Error())
-		return
+		return 0, err
 	}
 
 	sigs := make(chan os.Signal, 1)
@@ -47,10 +45,9 @@ func Execute(cmd string, args []string) (pid int) {
 	err = process.Wait()
 
 	if err != nil {
-		term.Error(err.Error())
-		return
+		return 0, err
 	}
 
-	pid = process.Process.Pid
-	return
+	pid := process.Process.Pid
+	return pid, nil
 }

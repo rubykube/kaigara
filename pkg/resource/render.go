@@ -2,41 +2,39 @@ package resource
 
 import (
 	"bytes"
-	"fmt"
-
-	"github.com/mod/kaigara/pkg/config"
-	"github.com/mod/kaigara/pkg/file"
-	"github.com/mod/kaigara/pkg/term"
-
 	"text/template"
 
-	_ "github.com/spf13/viper/remote"
+	"github.com/mod/kaigara/pkg/metadata"
+	"github.com/mod/kaigara/pkg/util"
 )
 
-func tmplPath() []string {
-	tmplPath := []string{"./resources", config.Get("tmpl")}
-	return tmplPath
+/*
+** Render a template file with given data
+ */
+func Render(f string, data metadata.Metamap) (string, error) {
+	tmpl := util.Read(f)
+	output, err := ParseTemplate(tmpl, data)
+	if err != nil {
+		return "", err
+	}
+	return output, nil
 }
 
-func Render(f string, data map[string]interface{}) {
-	tmpl := file.Read(f)
-	rendered := ParseTemplate(tmpl, data)
-	fmt.Println(rendered)
-}
-
-func ParseTemplate(tmpl string, data map[string]interface{}) string {
+/*
+** Render a template string with given data
+ */
+func ParseTemplate(tmpl string, data metadata.Metamap) (string, error) {
 	var buf bytes.Buffer
-	var t template.Template
+	var tpl template.Template
 
-	_, err := t.Parse(tmpl)
+	_, err := tpl.Parse(tmpl)
 	if err != nil {
-		term.Error(err.Error())
+		return "", err
 	}
 
-	err = t.Execute(&buf, data)
+	err = tpl.Execute(&buf, data)
 	if err != nil {
-		term.Error(err.Error())
+		return "", err
 	}
-
-	return buf.String()
+	return buf.String(), nil
 }
