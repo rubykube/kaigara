@@ -9,8 +9,10 @@
 package cmd
 
 import (
+	"github.com/mod/kaigara/pkg/core"
 	"github.com/mod/kaigara/pkg/metadata"
 	"github.com/mod/kaigara/pkg/term"
+	"github.com/mod/kaigara/pkg/resource"
 	"github.com/spf13/cobra"
 )
 
@@ -28,10 +30,15 @@ using -v default.yml:/etc/kaigara/default.yml
 Example: kaigara render server.conf > /etc/server.conf`,
 
 	Run: func(cmd *cobra.Command, args []string) {
-		metadata.Parse()
+		core.Init()
+		data, err := metadata.Parse()
+
+		if err != nil {
+			term.Error(err.Error())
+		}
 
 		if len(args) > 0 {
-			// resource.Render("resources/"+args[0]+".tmpl", viper.AllSettings())
+			resource.Render(core.Get("core.path.resources") + "/" + args[0] + ".tmpl", data)
 		} else {
 			term.Error("No template given")
 		}
@@ -40,7 +47,4 @@ Example: kaigara render server.conf > /etc/server.conf`,
 
 func init() {
 	RootCmd.AddCommand(renderCmd)
-	//cobra.OnInitialize(metadata.SetFile)
-	// renderCmd.Flags().StringVar(&metaFile,
-	// "metafile", "", "Change the metafile path")
 }
