@@ -4,14 +4,15 @@ NAME=kaigara
 VERSION=0.0.2
 TAG=v$(VERSION)
 
-all: $(NAME)
+all: clean test $(NAME)
 
 $(NAME):
 	echo "Building $(NAME)"
 	go build -v
 
+.PHONY: test
 test:
-	go test -v ./...
+	go test ./...
 
 dist: dist-clean
 	mkdir -p dist/linux/amd64		&& CGO_ENABLED=0 GOOS=linux GOARCH=amd64	go build -o dist/linux/amd64/$(NAME)

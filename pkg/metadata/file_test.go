@@ -2,13 +2,13 @@ package metadata
 
 import (
 	"testing"
-	"github.com/stretchr/testify/assert"
-
 	"os"
 	"os/exec"
 	"bytes"
 	"fmt"
 	"strings"
+
+	"github.com/stretchr/testify/assert"
 	"github.com/mod/kaigara/pkg/core"
 )
 
@@ -42,8 +42,9 @@ func TestParse(t *testing.T) {
 	core.Set("core.path.metadata", tmpdir)
 
 	expected := map[string]interface{}{"test":"data"}
-	actual := Parse()
-	assert.Equal(t, actual, expected, "they should be equal")
+	actual, err := Parse()
+	assert.Nil(t, err)
+	assert.Equal(t, expected, actual, "they should be equal")
 
 	os.RemoveAll(tmpdir)
 }
@@ -57,8 +58,9 @@ func TestParseWithMerge(t *testing.T) {
 	core.Set("core.path.metadata", tmpdir)
 
 	expected := map[string]interface{}{"test":"data", "info":"data"}
-	actual := Parse()
-	assert.Equal(t, actual, expected, "they should be equal")
+	actual, err := Parse()
+	assert.Nil(t, err)
+	assert.Equal(t, expected, actual, "they should be equal")
 
 	os.RemoveAll(tmpdir)
 }

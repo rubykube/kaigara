@@ -10,12 +10,18 @@ import (
 	"text/template"
 )
 
+/*
+** Render a template file with given data
+*/
 func Render(f string, data map[string]interface{}) {
 	tmpl := util.Read(f)
 	rendered := ParseTemplate(tmpl, data)
-	fmt.Println(rendered)
+	fmt.Print(rendered)
 }
 
+/*
+** Render a template string with given data
+*/
 func ParseTemplate(tmpl string, data map[string]interface{}) string {
 	var buf bytes.Buffer
 	var t template.Template
