@@ -8,8 +8,8 @@ import (
 
 func Warning(msg string) string {
 	SetConfig()
-	orange := color.New(color.FgRed, color.FgYellow, color.Bold)
-	print := orange.SprintfFunc()("Warning: %s", msg)
+	warningColor := color.New(color.FgYellow, color.Bold)
+	print := warningColor.SprintfFunc()("Warning: %s", msg)
 
 	fmt.Fprintln(os.Stderr, print)
 
@@ -41,7 +41,7 @@ func Create(name string) string {
 	bold := color.New(color.Bold)
 	green := color.New(color.FgGreen).SprintFunc()
 
-	print := bold.SprintFunc()(green("create "), name)
+	print := bold.SprintFunc()(green("create"), fmt.Sprintf(" %s", name))
 	fmt.Println(print)
 
 	return print
