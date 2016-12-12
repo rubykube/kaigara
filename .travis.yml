@@ -1,6 +1,8 @@
 language: go
 
 install:
+  - go get -v github.com/Masterminds/glide
   - glide install
 
-script: go test -v ./pkg/...
+script:
+  - go test -v ./pkg/...
