@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"text/template"
 
+	"github.com/Masterminds/sprig"
 	"github.com/mod/kaigara/pkg/metadata"
 	"github.com/mod/kaigara/pkg/util"
 )
@@ -25,9 +26,10 @@ func Render(f string, data metadata.Metamap) (string, error) {
  */
 func ParseTemplate(tmpl string, data metadata.Metamap) (string, error) {
 	var buf bytes.Buffer
-	var tpl template.Template
+	var tpl *template.Template
 
-	_, err := tpl.Parse(tmpl)
+	tpl = createTemplate()
+	tpl, err := tpl.Parse(tmpl)
 	if err != nil {
 		return "", err
 	}
@@ -37,4 +39,9 @@ func ParseTemplate(tmpl string, data metadata.Metamap) (string, error) {
 		return "", err
 	}
 	return buf.String(), nil
+}
+
+func createTemplate() *template.Template {
+	fmap := sprig.TxtFuncMap()
+	return template.New("base").Funcs(fmap)
 }

@@ -42,10 +42,10 @@ Example: kaigara render server.conf > /etc/server.conf`,
 			}
 
 			output, err := resource.Render(template, data)
-			fmt.Print(output)
 			if err != nil {
 				log.Fatal(err.Error())
 			}
+			fmt.Print(output)
 		} else {
 			log.Error("No template given")
 		}

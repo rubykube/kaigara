@@ -1,9 +1,13 @@
 package resource
 
 import (
-	"github.com/stretchr/testify/assert"
+	"bytes"
 	"os"
 	"testing"
+	"text/template"
+
+	"github.com/Masterminds/sprig"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestParseTemplate(t *testing.T) {
@@ -35,4 +39,19 @@ func TestRender(t *testing.T) {
 	expected := "kaigara value is 1234"
 	assert.Equal(t, expected, actual)
 	os.Remove("test.tmpl")
+}
+
+func TestTemplateFuncs(t *testing.T) {
+	var buf bytes.Buffer
+	vars := map[string]interface{}{"Name": "  kaigara  "}
+	tpl := `Hello {{.Name | trim | upper}}`
+
+	fmap := sprig.TxtFuncMap()
+	tgen := template.Must(template.New("test").Funcs(fmap).Parse(tpl))
+
+	err := tgen.Execute(&buf, vars)
+	if err != nil {
+		t.Fatal(err)
+	}
+	assert.Equal(t, "Hello KAIGARA", buf.String())
 }
