@@ -11,8 +11,9 @@ test: clean build
 	./scripts/start.sh
 
 kaigara:
-	cp ../bin/kaigara .
+	$(MAKE) -C .. all
+	cp ../kaigara .
 
 clean:
 	rm -f kaigara
-	docker rmi -f $(NAME):$(VERSION)
+	-docker rmi -f $(NAME):$(VERSION)
