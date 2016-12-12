@@ -11,7 +11,6 @@ test: clean build
 	./scripts/start.sh
 
 kaigara:
-	$(MAKE) -C .. all
 	cp ../kaigara .
 
 clean:

@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"os"
 	"testing"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestExists(t *testing.T) {
@@ -12,22 +13,17 @@ func TestExists(t *testing.T) {
 
 	os.Remove(file.Name())
 
-	if !ex {
-		t.Fail()
-	}
+	assert.NotNil(t, ex)
 }
 
 func TestReadGlob(t *testing.T) {
 	metadir, _ := ioutil.TempDir("", "metadata-")
 	CreateFile(metadir + "/values.yml")
 	CreateFile(metadir + "/meta.yaml")
-	files := ReadGlob(metadir + "/*.y*ml")
-	for _, file := range files {
-		ex := Exists(file)
-		if !ex {
-			t.Error(ex)
-		}
-	}
+	expected := []string{metadir + "/meta.yaml", metadir + "/values.yml"}
+	actual, err := ReadGlob(metadir + "/*.y*ml")
+	assert.Nil(t, err)
+	assert.Equal(t, expected, actual)
 	os.RemoveAll(metadir)
 }
 
@@ -37,9 +33,7 @@ func TestCreateFile(t *testing.T) {
 
 	_, err := os.Stat(filename)
 
-	if os.IsNotExist(err) {
-		t.Error("did not create file")
-	}
+	assert.Nil(t, err, "did not create a file")
 
 	os.Remove(filename)
 }
@@ -50,9 +44,7 @@ func TestCreateDir(t *testing.T) {
 
 	_, err := os.Stat(dirname)
 
-	if os.IsNotExist(err) {
-		t.Error("did not create dir")
-	}
+	assert.Nil(t, err, "did not create a directory")
 
 	os.Remove(dirname)
 }
