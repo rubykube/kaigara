@@ -1,9 +1,3 @@
----
-date: 2016-09-17T20:09:24+02:00
-title: kaigara
-type: index
-weight: 0
----
 # kaigara
 ## Devops Swiss Army knife
 
@@ -14,17 +8,19 @@ weight: 0
 Kaigara is a tiny provisioning tool for container initialization
 and with continuous migration in production in mind.
 
+Documentation is available at [Kaigara.org](http://www.kaigara.org/)
+
 ### Installation
 
 Paste the following lines into your Dockerfile:
 ```
 ## <[ Kaigara
-ENV KAIGARA_VERSION v0.0.1
+ENV KAIGARA_VERSION v0.0.3
 RUN wget --quiet https://github.com/mod/kaigara/releases/download/$KAIGARA_VERSION/kaigara-linux-amd64-$KAIGARA_VERSION.tar.gz \
     && tar -C /usr/local/bin -xzvf kaigara-linux-amd64-$KAIGARA_VERSION.tar.gz
 
-    COPY operations /opt/provision/operations
-    COPY resources /opt/provision/resources
+    COPY operations /opt/kaigara/operations
+    COPY resources /etc/kaigara/resources
 ## Kaigara ]>
 ```
 
