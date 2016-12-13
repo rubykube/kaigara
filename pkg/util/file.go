@@ -5,7 +5,6 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/mod/kaigara/pkg/log"
 	"github.com/mod/kaigara/pkg/term"
 )
 
@@ -18,12 +17,12 @@ func Exists(filename string) bool {
 	return true
 }
 
-func ReadGlob(path string) []string {
+func ReadGlob(path string) ([]string, error) {
 	matches, err := filepath.Glob(path)
 	if err != nil {
-		log.Error(err.Error())
+		return []string{}, nil
 	}
-	return matches
+	return matches, nil
 }
 
 func CreateFile(filename string) {
