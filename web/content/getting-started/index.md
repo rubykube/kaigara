@@ -4,9 +4,13 @@ title: Getting Started
 ---
 ## How to install
 
+### Using inline script
+```
+curl https://kaigara.org/get | sh
+```
 ### Using wget
 ```
-export KAIGARA_VERSION=v0.0.2
+export KAIGARA_VERSION=v0.0.4
 wget --quiet https://github.com/mod/kaigara/releases/download/$KAIGARA_VERSION/kaigara-linux-amd64-$KAIGARA_VERSION.tar.gz
 ```
 
@@ -15,12 +19,35 @@ wget --quiet https://github.com/mod/kaigara/releases/download/$KAIGARA_VERSION/k
 go get -v -u github.com/mod/kaigara
 ```
 
-## Create an Application
+## Create an Application tree
 
 ```
 mkdir -p work/application/myapp
 cd work/application/myapp
-kaigara init
+mkdir resources operations
+touch defaults.yml
+vim Dockerfile
+```
+
+## Edit your Dockerfile
+
+Paste the following line in your dockerfile as root user
+```
+## <[ Kaigara
+RUN curl https://kaigara.org/get | sh
+
+COPY operations   /opt/kaigara/operations
+COPY resources    /etc/kaigara/resources
+COPY defaults.yml /etc/kaigara/defaults.yml
+
+ENTRYPOINT ["kaigara"]
+CMD ["start", "myapp.sh"]
+## Kaigara ]>
+```
+
+You can build your container :
+```
+docker build -t company/myapp:0.0.1 --rm .
 ```
 
 ### Run inside a container
@@ -30,13 +57,19 @@ you can access any command using CMD
 
 ```
 # Display help
-docker run -it --rm kaigara/box help
+docker run -it --rm company/myapp help
 
 # Run all operations
-docker run -it --rm kaigara/box provision
+docker run -it --rm company/myapp provision
 
 # Render a template from resources on stdout
-docker run -it --rm kaigara/box render config.conf.tmpl
+docker run -it --rm company/myapp render config.conf
+
+# Execute bash or any unix program
+docker run -it --rm company/myapp exec bash
+
+# Display installed kaigara version
+docker run -it --rm company/myapp version
 ```
 
 ### Usage
@@ -44,24 +77,18 @@ docker run -it --rm kaigara/box render config.conf.tmpl
 ```
 Kaigara is a lightweight provisioning system for unix
 
-  By embeding operations and resources into your application containers
-  kaigara will run all your provisioning scripts before starting the app.
+By embeding operations and resources into your application containers
+kaigara will run all your provisioning scripts before starting the app.
 
 Usage:
   kaigara [command]
 
 Available Commands:
-  create      Create a Kaigara default docker project
   exec        Execute an executable in a child process
   provision   Provisioning using operations
-  render      Generate a file from a template
-  start       Runs a <command> after provision
-
-Flags:
-      --color           enable colorized output
-      --config string   config file (default is $HOME/.kairc)
-  -h, --help            help for kaigara
+  render      Generate a file on STDOUT from a TEMPLATE
+  start       Runs a <PROGRAM> after provision
+  version     Return kaigara version
 
 Use "kaigara [command] --help" for more information about a command.
-
 ```

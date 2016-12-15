@@ -37,7 +37,6 @@ func RollUp() error {
 			return err
 		}
 	} else if util.Exists(operationDir) {
-		runOps(operationDir)
 		err := runOps(operationDir)
 		if err != nil {
 			return err

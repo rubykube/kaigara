@@ -1,6 +1,6 @@
 ---
 date: 2016-09-17T20:09:24+02:00
-title: kaigara
+title: kaigara - Entrypoint for containers
 type: index
 weight: 0
 ---
@@ -22,16 +22,31 @@ or configuration edits.
 
 ### Installation
 
-Paste the following lines into your Dockerfile:
+There is no need to install kaigara on development workstation, you can only install it
+using the Dockerfile, in your application repository just create the following folders:
+
+```
+# this folder will contain static files, mostly application templates
+mkdir resources
+
+# this folder will contain bash/ruby/perl/any scripts for provision
+mkdir operations
+
+# input default and development values, this file will be substituted in other env.
+touch defaults.yml
+
+```
+
+Edit your application Dockerfile and paste the following lines into your Dockerfile:
 ```
 ## <[ Kaigara
-ENV KAIGARA_VERSION v0.0.2
-RUN wget --quiet https://github.com/mod/kaigara/releases/download/$KAIGARA_VERSION/kaigara-linux-amd64-$KAIGARA_VERSION.tar.gz \
-    && tar -C /usr/local/bin -xzvf kaigara-linux-amd64-$KAIGARA_VERSION.tar.gz
+RUN curl https://kaigara.org/get | sh
 
-    COPY operations /opt/provision/operations
-    COPY resources /opt/provision/resources
-    COPY metadata.yml /opt/provision/metadata.yml
+COPY operations   /opt/kaigara/operations
+COPY resources    /etc/kaigara/resources
+COPY defaults.yml /etc/kaigara/defaults.yml
+
+ENTRYPOINT ["kaigara"]
 ## Kaigara ]>
 ```
 

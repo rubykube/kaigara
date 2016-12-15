@@ -24,6 +24,6 @@ KAIGARA_TMP=`mktemp -d -t kaigara`
 wget $DOWNLOAD_URL -O $KAIGARA_TMP/kaigara
 tar -xf /tmp/$KAIGARA_TAR -C $KAIGARA_TMP
 
-sudo cp $KAIGARA_TMP/kaigara /usr/local/bin/kaigara
+cp $KAIGARA_TMP/kaigara /usr/local/bin/kaigara
 
 echo "Kaigara is now installed."
