@@ -4,7 +4,7 @@ metadata:
   name: kaigara-org
   namespace: kaigara
 spec:
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -12,6 +12,6 @@ spec:
     spec:
       containers:
       - name: kaiweb
-        image: kaigara/web:0.0.5
+        image: kaigara/web:latest
         ports:
         - containerPort: 8080

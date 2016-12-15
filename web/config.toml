@@ -1,4 +1,4 @@
-baseurl = "http://www.kaigara.org/"
+baseurl = "https://www.kaigara.org/"
 languageCode = "en-us"
 title = "Kaigara"
 theme = "hugo-material-docs"
