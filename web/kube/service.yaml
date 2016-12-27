@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -10,4 +11,19 @@ spec:
   - name: http
     port: 80
     targetPort: 8080
+    protocol: TCP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-www-redirect
+  namespace: kaigara
+spec:
+  selector:
+    app: nginx-www-redirect
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
     protocol: TCP
