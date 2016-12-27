@@ -1,29 +1,86 @@
-#!/bin/bash
+#!/bin/sh
 
-ARCH=$(uname -m)
-case $ARCH in
-  x86) ARCH="386";;
-  x86_64) ARCH="amd64";;
-  i686) ARCH="386";;
-  i386) ARCH="386";;
-esac
+# To run this script execute:
+#   `curl https://kaigara.org/get | sh`
 
-OS=$(uname | tr '[:upper:]' '[:lower:]')
+BIN_DIR="/usr/local/bin"
 
-# Use the GitHub API to find the latest version for this project.
-LATEST_URL="https://api.github.com/repos/mod/kaigara/releases/latest"
-if type "curl" > /dev/null; then
-	TAG=$(curl -s $LATEST_URL | awk '/\"tag_name\":/{gsub( /[,\"]/,"", $2); print $2}')
-fi
+initArch() {
+	ARCH=$(uname -m)
+	case $ARCH in
+		x86) ARCH="i386";;
+		x86_64) ARCH="amd64";;
+		i686) ARCH="i386";;
+		i386) ARCH="i386";;
+	esac
+}
 
-KAIGARA_TAR="kaigara-$OS-$ARCH-$TAG.tar.gz"
-DOWNLOAD_URL="https://github.com/mod/kaigara/releases/download/$TAG/$KAIGARA_TAR"
+initOS() {
+	OS=$(uname | tr '[:upper:]' '[:lower:]')
+}
 
-KAIGARA_TMP=`mktemp -d -t kaigara`
+downloadFile() {
+  LATEST_URL="https://api.github.com/repos/mod/kaigara/releases/latest"
 
-wget $DOWNLOAD_URL -O $KAIGARA_TMP/kaigara
-tar -xf /tmp/$KAIGARA_TAR -C $KAIGARA_TMP
+  if command -v curl > /dev/null; then
+    TAG=$(curl -s "$LATEST_URL" | sed -n -e 's/\s\s"tag_name":\s"\(.*\)",$/\1/p')
+  elif command -v wget > /dev/null; then
+    TAG=$(wget -q -O - "$LATEST_URL" | sed -n -e 's/\s\s"tag_name":\s"\(.*\)",$/\1/p')
+  fi
 
-cp $KAIGARA_TMP/kaigara /usr/local/bin/kaigara
+  KAIGARA_DIST="kaigara-$OS-$ARCH-$TAG.tar.gz"
+  DOWNLOAD_URL="https://github.com/mod/kaigara/releases/download/$TAG/$KAIGARA_DIST"
 
-echo "Kaigara is now installed."
+  if [ -z "$DOWNLOAD_URL" ]; then
+    echo "Sorry, we dont have a dist for your system: $OS $ARCH"
+    echo "You can ask one here: https://github.com/mod/kaigara/issues"
+    exit 1
+  else
+    KAIGARA_TMP_FILE="/tmp/$KAIGARA_DIST"
+    echo "Downloading $DOWNLOAD_URL"
+    if command -v "curl" > /dev/null; then
+      curl -L "$DOWNLOAD_URL" -o "$KAIGARA_TMP_FILE"
+    elif command -v "wget" > /dev/null; then
+			wget -q -O "$KAIGARA_TMP_FILE" "$DOWNLOAD_URL"
+		fi
+	fi
+}
+
+installFile() {
+	KAIGARA_TMP="/tmp/kaigara"
+	mkdir -p "$KAIGARA_TMP"
+	tar xf "$KAIGARA_TMP_FILE" -C "$KAIGARA_TMP"
+	KAIGARA_TMP_BIN="$KAIGARA_TMP/kaigara"
+	cp "$KAIGARA_TMP_BIN" "$BIN_DIR"
+}
+
+bye() {
+	result=$?
+	if [ "$result" != "0" ]; then
+		echo "Failed to install kaigara."
+	fi
+	exit $result
+}
+
+testVersion() {
+	set +e
+	KAIGARA="$(which kaigara)"
+	if [ "$?" = "1" ]; then
+		echo "kaigara not found. Did you add $BIN_DIR to your \$PATH?"
+		exit 1
+	fi
+	set -e
+	KAIGARA_VERSION=$(kaigara version)
+	echo "$KAIGARA $KAIGARA_VERSION installed succesfully."
+}
+
+# Execution
+
+#Stop execution on any error
+trap "bye" EXIT
+set -e
+initArch
+initOS
+downloadFile
+installFile
+testVersion
