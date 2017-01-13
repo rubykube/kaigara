@@ -6,7 +6,7 @@ title: Getting Started
 
 ### Using inline script
 ```
-curl https://kaigara.org/get | sh
+curl -sL https://kaigara.org/get | sh
 ```
 ### Using wget
 ```
@@ -34,7 +34,7 @@ vim Dockerfile
 Paste the following line in your dockerfile as root user
 ```
 ## <[ Kaigara
-RUN curl https://kaigara.org/get | sh
+RUN curl -sL https://kaigara.org/get | sh
 
 COPY operations   /opt/kaigara/operations
 COPY resources    /etc/kaigara/resources

@@ -40,7 +40,7 @@ touch defaults.yml
 Edit your application Dockerfile and paste the following lines into your Dockerfile:
 ```
 ## <[ Kaigara
-RUN curl https://kaigara.org/get | sh
+RUN curl -sL https://kaigara.org/get | sh
 
 COPY operations   /opt/kaigara/operations
 COPY resources    /etc/kaigara/resources

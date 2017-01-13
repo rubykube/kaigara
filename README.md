@@ -15,7 +15,7 @@ Documentation is available at [Kaigara.org](http://www.kaigara.org/)
 Paste the following lines into your Dockerfile:
 ```
 ## Kaigara being
-  RUN curl https://kaigara.org/get | sh
+  RUN curl -sL https://kaigara.org/get | sh
   COPY operations /opt/kaigara/operations
   COPY resources /etc/kaigara/resources
 ## Kaigara end
