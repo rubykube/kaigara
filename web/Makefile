@@ -1,5 +1,5 @@
 NAME = kaigara/web
-VERSION = 0.0.6
+VERSION = 0.0.7
 
 .PHONY: build clean
 
@@ -8,7 +8,8 @@ build: docs module
 	docker tag $(NAME):$(VERSION) $(NAME):latest
 
 release: build
-	docker push $(NAME)
+	docker push $(NAME):latest
+	docker push $(NAME):$(VERSION)
 
 deploy: release
 	kubectl apply -f kube
