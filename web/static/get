@@ -6,17 +6,17 @@
 BIN_DIR="/usr/local/bin"
 
 initArch() {
-	ARCH=$(uname -m)
-	case $ARCH in
-		x86) ARCH="i386";;
-		x86_64) ARCH="amd64";;
-		i686) ARCH="i386";;
-		i386) ARCH="i386";;
-	esac
+  ARCH=$(uname -m)
+  case $ARCH in
+    x86) ARCH="i386";;
+    x86_64) ARCH="amd64";;
+    i686) ARCH="i386";;
+    i386) ARCH="i386";;
+  esac
 }
 
 initOS() {
-	OS=$(uname | tr '[:upper:]' '[:lower:]')
+  OS=$(uname | tr '[:upper:]' '[:lower:]')
 }
 
 downloadFile() {
@@ -47,31 +47,31 @@ downloadFile() {
 }
 
 installFile() {
-	KAIGARA_TMP="/tmp/kaigara"
-	mkdir -p "$KAIGARA_TMP"
-	tar xf "$KAIGARA_TMP_FILE" -C "$KAIGARA_TMP"
-	KAIGARA_TMP_BIN="$KAIGARA_TMP/kaigara"
-	cp "$KAIGARA_TMP_BIN" "$BIN_DIR"
+  KAIGARA_TMP="/tmp/kaigara"
+  mkdir -p "$KAIGARA_TMP"
+  tar xf "$KAIGARA_TMP_FILE" -C "$KAIGARA_TMP"
+  KAIGARA_TMP_BIN="$KAIGARA_TMP/kaigara"
+  cp "$KAIGARA_TMP_BIN" "$BIN_DIR"
 }
 
 bye() {
-	result=$?
-	if [ "$result" != "0" ]; then
-		echo "Failed to install kaigara."
-	fi
-	exit $result
+  result=$?
+  if [ "$result" != "0" ]; then
+    echo "Failed to install kaigara."
+  fi
+  exit $result
 }
 
 testVersion() {
-	set +e
-	KAIGARA="$(which kaigara)"
-	if [ "$?" = "1" ]; then
-		echo "kaigara not found. Did you add $BIN_DIR to your \$PATH?"
-		exit 1
-	fi
-	set -e
-	KAIGARA_VERSION=$(kaigara version)
-	echo "$KAIGARA $KAIGARA_VERSION installed succesfully."
+  set +e
+  KAIGARA="$(which kaigara)"
+  if [ "$?" = "1" ]; then
+    echo "kaigara not found. Did you add $BIN_DIR to your \$PATH?"
+    exit 1
+  fi
+  set -e
+  KAIGARA_VERSION=$(kaigara version)
+  echo "$KAIGARA $KAIGARA_VERSION installed succesfully."
 }
 
 # Execution
