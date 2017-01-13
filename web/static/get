@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # To run this script execute:
-#   `curl https://kaigara.org/get | sh`
+#   `curl -L https://kaigara.org/get | sh`
 
 BIN_DIR="/usr/local/bin"
 
@@ -39,11 +39,11 @@ downloadFile() {
     KAIGARA_TMP_FILE="/tmp/$KAIGARA_DIST"
     echo "Downloading $DOWNLOAD_URL"
     if command -v "curl" > /dev/null; then
-      curl -L "$DOWNLOAD_URL" -o "$KAIGARA_TMP_FILE"
+      curl -sL "$DOWNLOAD_URL" -o "$KAIGARA_TMP_FILE"
     elif command -v "wget" > /dev/null; then
-			wget -q -O "$KAIGARA_TMP_FILE" "$DOWNLOAD_URL"
-		fi
-	fi
+      wget -q -O "$KAIGARA_TMP_FILE" "$DOWNLOAD_URL"
+    fi
+  fi
 }
 
 installFile() {
