@@ -22,7 +22,12 @@ var startCmd = &cobra.Command{
 
 Operations should be protected against re-executions.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		operation.RollUp()
+		err := operation.RollUp()
+		if (err != nil) {
+			term.Error(err.Error())
+			return;
+		}
+
 		if len(args) > 0 {
 			operation.Execute(args[0], args[1:])
 		} else {
