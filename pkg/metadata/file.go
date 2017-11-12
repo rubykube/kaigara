@@ -13,7 +13,9 @@ type Metamap map[string]interface{}
 
 func Parse() (Metamap, error) {
 	metapath := core.Get("core.path.metadata")
-	metafiles, err := util.ReadGlob(metapath + "/*.y*ml")
+	metafilesRoot, err := util.ReadGlob(metapath + "/*.y*ml")
+	metafilesNested, err := util.ReadGlob(metapath + "/*/*.y*ml")
+	metafiles := append(metafilesRoot, metafilesNested...)
 	metadata := Metamap{}
 
 	if err != nil {
