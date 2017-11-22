@@ -74,6 +74,10 @@ testVersion() {
   echo "$KAIGARA $KAIGARA_VERSION installed succesfully."
 }
 
+cleanFile() {
+    rm -rf $KAIGARA_TMP $KAIGARA_TMP_FILE
+}
+
 # Execution
 
 #Stop execution on any error
@@ -83,4 +87,5 @@ initArch
 initOS
 downloadFile
 installFile
+cleanFile
 testVersion
