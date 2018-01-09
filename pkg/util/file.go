@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/mod/kaigara/pkg/term"
+	"github.com/rubykube/kaigara/pkg/term"
 )
 
 func Exists(filename string) bool {

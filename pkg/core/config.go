@@ -3,7 +3,7 @@ package core
 import (
 	"os"
 
-	"github.com/mod/kaigara/pkg/log"
+	"github.com/rubykube/kaigara/pkg/log"
 )
 
 type Config map[string]string

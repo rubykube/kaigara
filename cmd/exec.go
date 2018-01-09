@@ -9,8 +9,8 @@
 package cmd
 
 import (
-	"github.com/mod/kaigara/pkg/operation"
-	"github.com/mod/kaigara/pkg/term"
+	"github.com/rubykube/kaigara/pkg/operation"
+	"github.com/rubykube/kaigara/pkg/term"
 	"github.com/spf13/cobra"
 )
 

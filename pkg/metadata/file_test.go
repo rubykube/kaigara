@@ -5,8 +5,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/mod/kaigara/pkg/test"
-	"github.com/mod/kaigara/pkg/core"
+	"github.com/rubykube/kaigara/pkg/test"
+	"github.com/rubykube/kaigara/pkg/core"
 	"github.com/stretchr/testify/assert"
 )
 
