@@ -20,10 +20,10 @@ initOS() {
 }
 
 downloadFile() {
-  LATEST_URL="https://api.github.com/repos/mod/kaigara/releases/latest"
+  LATEST_URL="https://api.github.com/repos/rubykube/kaigara/releases/latest"
 
   if command -v curl > /dev/null; then
-    TAG=$(curl -s "$LATEST_URL" | sed -n -e 's/\s\s"tag_name":\s"\(.*\)",$/\1/p')
+    TAG=$(curl -sL "$LATEST_URL" | sed -n -e 's/\s\s"tag_name":\s"\(.*\)",$/\1/p')
   elif command -v wget > /dev/null; then
     TAG=$(wget -q -O - "$LATEST_URL" | sed -n -e 's/\s\s"tag_name":\s"\(.*\)",$/\1/p')
   fi
