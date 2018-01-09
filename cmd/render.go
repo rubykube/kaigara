@@ -11,10 +11,10 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/mod/kaigara/pkg/core"
-	"github.com/mod/kaigara/pkg/log"
-	"github.com/mod/kaigara/pkg/metadata"
-	"github.com/mod/kaigara/pkg/resource"
+	"github.com/rubykube/kaigara/pkg/core"
+	"github.com/rubykube/kaigara/pkg/log"
+	"github.com/rubykube/kaigara/pkg/metadata"
+	"github.com/rubykube/kaigara/pkg/resource"
 	"github.com/spf13/cobra"
 )
 

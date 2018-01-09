@@ -5,9 +5,9 @@ import (
 	"io/ioutil"
 	"path/filepath"
 
-	"github.com/mod/kaigara/pkg/core"
-	"github.com/mod/kaigara/pkg/log"
-	"github.com/mod/kaigara/pkg/util"
+	"github.com/rubykube/kaigara/pkg/core"
+	"github.com/rubykube/kaigara/pkg/log"
+	"github.com/rubykube/kaigara/pkg/util"
 )
 
 func runOps(path string) error {

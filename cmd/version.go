@@ -17,7 +17,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/mod/kaigara/pkg/version"
+	"github.com/rubykube/kaigara/pkg/version"
 	"github.com/spf13/cobra"
 )
 

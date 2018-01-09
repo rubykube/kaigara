@@ -5,8 +5,8 @@ import (
 	"text/template"
 
 	"github.com/Masterminds/sprig"
-	"github.com/mod/kaigara/pkg/metadata"
-	"github.com/mod/kaigara/pkg/util"
+	"github.com/rubykube/kaigara/pkg/metadata"
+	"github.com/rubykube/kaigara/pkg/util"
 )
 
 /*

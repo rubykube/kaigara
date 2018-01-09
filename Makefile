@@ -3,7 +3,7 @@ NAME=kaigara
 
 TAG := $(shell git describe --tags --abbrev=0 2>/dev/null)
 
-LDFLAGS += -X github.com/mod/kaigara/pkg/version.Version=${TAG}
+LDFLAGS += -X github.com/rubykube/kaigara/pkg/version.Version=${TAG}
 
 all: clean test $(NAME)
 

@@ -9,8 +9,8 @@
 package main
 
 import (
-	"github.com/mod/kaigara/cmd"
-	"github.com/mod/kaigara/pkg/core"
+	"github.com/rubykube/kaigara/cmd"
+	"github.com/rubykube/kaigara/pkg/core"
 )
 
 func main() {
