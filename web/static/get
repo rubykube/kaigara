@@ -23,17 +23,17 @@ downloadFile() {
   LATEST_URL="https://api.github.com/repos/rubykube/kaigara/releases/latest"
 
   if command -v curl > /dev/null; then
-    TAG=$(curl -sL "$LATEST_URL" | sed -n -e 's/\s\s"tag_name":\s"\(.*\)",$/\1/p')
+    TAG=$(curl -sL "$LATEST_URL" | sed -Ee 's/.*"tag_name":"([^"]+)".*/\1/')
   elif command -v wget > /dev/null; then
-    TAG=$(wget -q -O - "$LATEST_URL" | sed -n -e 's/\s\s"tag_name":\s"\(.*\)",$/\1/p')
+    TAG=$(wget -q -O - "$LATEST_URL" | sed -Ee 's/.*"tag_name":"([^"]+)".*/\1/')
   fi
 
   KAIGARA_DIST="kaigara-$OS-$ARCH-$TAG.tar.gz"
-  DOWNLOAD_URL="https://github.com/mod/kaigara/releases/download/$TAG/$KAIGARA_DIST"
+  DOWNLOAD_URL="https://github.com/rubykube/kaigara/releases/download/$TAG/$KAIGARA_DIST"
 
   if [ -z "$DOWNLOAD_URL" ]; then
     echo "Sorry, we dont have a dist for your system: $OS $ARCH"
-    echo "You can ask one here: https://github.com/mod/kaigara/issues"
+    echo "You can ask one here: https://github.com/rubykube/kaigara/issues"
     exit 1
   else
     KAIGARA_TMP_FILE="/tmp/$KAIGARA_DIST"
