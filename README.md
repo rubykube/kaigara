@@ -1,7 +1,7 @@
 # kaigara
 ## Devops Swiss Army knife
 
-[![Build Status](https://travis-ci.org/mod/kaigara.svg?branch=master)](https://travis-ci.org/mod/kaigara)
+[![Build Status](https://travis-ci.org/rubykube/kaigara.svg?branch=master)](https://travis-ci.org/rubykube/kaigara)
 
 ### Introduction
 
@@ -45,5 +45,5 @@ Default Folder: /opt/kaigara/operations/
 ### Contribute
 
 ```
-go get github/mod/kaigara
+go get github/rubykube/kaigara
 ```
