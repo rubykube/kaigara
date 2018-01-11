@@ -17,7 +17,7 @@ googleAnalytics = "UA-76648418-2"
 	provider = "GitHub"
 	repo_url = "https://github.com/rubykube/kaigara"
 
-	version = "v0.0.4"
+	version = "v0.0.5"
 	logo = "images/kaigara-logo.png"
 	favicon = ""
 
@@ -40,7 +40,7 @@ googleAnalytics = "UA-76648418-2"
 
 [social]
 	twitter = "heliosgroup"
-	github  = "mod"
+	github  = "rubykube"
 
 [[menu.main]]
 	name   = "Kaigara"
