@@ -23,9 +23,9 @@ downloadFile() {
   LATEST_URL="https://api.github.com/repos/rubykube/kaigara/releases/latest"
 
   if command -v curl > /dev/null; then
-    TAG=$(curl -sL "$LATEST_URL" | sed -Ee 's/.*"tag_name":"([^"]+)".*/\1/')
+    TAG=$(curl -sL "$LATEST_URL" | sed -rn 's/\s+"tag_name":\s+"([^"]+)",/\1/p')
   elif command -v wget > /dev/null; then
-    TAG=$(wget -q -O - "$LATEST_URL" | sed -Ee 's/.*"tag_name":"([^"]+)".*/\1/')
+    TAG=$(wget -q -O - "$LATEST_URL" | sed -rn 's/\s+"tag_name":\s+"([^"]+)",/\1/p')
   fi
 
   KAIGARA_DIST="kaigara-$OS-$ARCH-$TAG.tar.gz"
