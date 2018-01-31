@@ -1,5 +1,6 @@
-NAME = kaigara/web
-VERSION = 0.1.1
+SERVICE  = kaigara
+NAME    ?= rubykube/$(SERVICE)
+VERSION ?= $(shell cat VERSION)
 
 .PHONY: build clean
 
@@ -11,8 +12,8 @@ release: build
 	docker push $(NAME):latest
 	docker push $(NAME):$(VERSION)
 
-deploy: release
-	kubectl apply -f kube
+deploy:
+	helm install --name $(SERVICE) ./chart --set="image.tag=$(VERSION)"
 
 module:
 	git submodule init
